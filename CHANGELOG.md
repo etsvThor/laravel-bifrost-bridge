@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.1.2 - 2020-12-19
+
+### Changed
+- Fixed BindingResolutionException
+
 ## 0.1.1 - 2020-12-19
 
 ### Changed

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Socialite\Facades\Socialite;
 use EtsvThor\BifrostBridge\BifrostBridge;
 use EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class LoginController
 {
@@ -25,6 +26,18 @@ class LoginController
             ? redirect()->route($route)
             : redirect()->to($route);
     }
+
+    protected function notify(string $message, string $type = 'success'): bool
+    {
+        try {
+            app('flash')->message($message, $type);
+        } catch (BindingResolutionException $e) {
+            return false;
+        }
+
+        return true;
+    }
+
 
     public function redirect(Request $request)
     {
@@ -111,10 +124,7 @@ class LoginController
         Auth::login($user);
 
         // Set notification if there is a flash notifier
-        $notifier = app('flash');
-        if ($notifier) {
-            $notifier->success('Welcome ' . $user->name);
-        }
+        $this->notify('Welcome ' . $user->name);
 
         return $this->resolveRedirect('bifrost.redirects.after_login');
     }
@@ -128,10 +138,7 @@ class LoginController
         Auth::logout();
 
         // Set notification if there is a flash notifier
-        $notifier = app('flash');
-        if ($notifier) {
-            $notifier->success('You have logout successfully');
-        }
+        $this->notify('You have logout successfully');
 
         return $this->resolveRedirect('bifrost.redirects.after_logout');
     }
