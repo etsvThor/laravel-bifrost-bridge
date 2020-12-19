@@ -24,7 +24,7 @@ class WebhookController
             ], 500);
         }
 
-        if ($request->verifySignature(config('bifrost.auth_push_key'))) {
+        if (! $request->verifySignature(config('bifrost.auth_push_key'))) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid signature.',
