@@ -33,7 +33,6 @@ BIFROST_ROUTE_PREFIX=
 In the configuration file, one can specify some thing about the user model, but have some sensible defaults
 
 See [config/bifrost.php](config/bifrost.php) for all options.
-```
 
 ### Resolvers
 The `User` and `Role` model can be resolved using a custom resolver
