@@ -1,4 +1,6 @@
 # laravel-bifrost-bridge
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/etsvthor/laravel-bifrost-bridge.svg?style=flat-square)](https://packagist.org/packages/etsvthor/laravel-bifrost-bridge)
+
 Connect a laravel application with the Bifrost
 
 ## Installation
