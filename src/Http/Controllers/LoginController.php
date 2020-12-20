@@ -80,7 +80,7 @@ class LoginController
 
             // Nope, create a user
             if (is_null($user)) {
-                $user = BifrostBridge::getUserClass()::forceCreate($data->except('roles', 'created_at', 'updated_at')->toArray());
+                $user = BifrostBridge::getUserClass()::forceCreate($data->except('roles', 'created_at', 'updated_at', 'emails')->toArray());
             }
 
             // Check if we need to verify email
@@ -113,7 +113,7 @@ class LoginController
 
         // If the user has new info, force update it
         if (Carbon::parse($data->updated_at)->greaterThan($user->updated_at)) {
-            $user->forceFill($data->except('roles', 'created_at', 'updated_at')->toArray());
+            $user->forceFill($data->except('roles', 'created_at', 'updated_at', 'emails')->toArray());
             $user->save();
         }
 
