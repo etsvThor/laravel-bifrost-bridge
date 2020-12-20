@@ -51,6 +51,8 @@ class LoginController
 
             // Login user
             Auth::login($user);
+            
+            $this->notify($user->name . ' has been logged in automatically, as Bifrost is disabled');
 
             return $this->resolveRedirect('bifrost.redirects.after_login');
         }
