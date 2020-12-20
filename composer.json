@@ -23,6 +23,7 @@
     "suggest": {
         "laracasts/flash": "Show messages on login and logout"
     },
+    "license": "MIT",
     "extra": {
         "laravel": {
             "providers": [
