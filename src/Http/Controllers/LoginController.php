@@ -67,12 +67,16 @@ class LoginController
 
         if (is_null($user)) {
             // See if the user has an e-mailaddress
-            if (is_null($data->email)) {
+            if (is_null($data->emails) && is_null($data->email)) {
                 return BifrostBridge::retrieveUserWithoutEmail($data);
             }
 
-            // There is an email, so find the user
-            $user = BifrostBridge::applyWithTrashed()->where(BifrostBridge::emailKey(), $data->email)->first();
+            // There is an email, so find the user. Either from array of emails or single email value
+            if(is_null($data->emails)) {
+                $user = BifrostBridge::applyWithTrashed()->where(BifrostBridge::emailKey(), $data->email)->first();
+            } else {
+                $user = BifrostBridge::applyWithTrashed()->whereIn(BifrostBridge::emailKey(), $data->emails)->first();
+            }
 
             // Nope, create a user
             if (is_null($user)) {

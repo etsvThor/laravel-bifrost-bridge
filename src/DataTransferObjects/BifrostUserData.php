@@ -13,6 +13,7 @@ class BifrostUserData extends DataTransferObject
     public string  $created_at;
     public string  $updated_at;
     public array   $roles = [];
+    public ?array  $emails = [];
 
     public function __construct(array $parameters = [])
     {
