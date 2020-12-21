@@ -74,7 +74,7 @@ class BifrostBridgeServiceProvider extends ServiceProvider
         $socialite = $this->app->make(SocialiteFactory::class);
 
         $socialite->extend(
-            BifrostSocialiteProvider::class,
+            'bifrost',
             function () use ($socialite) {
                 /** @var \Laravel\Socialite\SocialiteManager $socialite */
                 return $socialite->buildProvider(BifrostSocialiteProvider::class, config('bifrost.service'));
