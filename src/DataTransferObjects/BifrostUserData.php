@@ -2,9 +2,10 @@
 
 namespace EtsvThor\BifrostBridge\DataTransferObjects;
 
+use Laravel\Socialite\Contracts\User;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class BifrostUserData extends DataTransferObject
+class BifrostUserData extends DataTransferObject implements User
 {
     public int     $oauth_user_id;
     public string  $name;
@@ -33,5 +34,55 @@ class BifrostUserData extends DataTransferObject
         if (! is_null($this->alternate_emails)) {
             $this->all_emails = array_merge($this->all_emails, $this->alternate_emails);
         }
+    }
+
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->oauth_user_id;
+    }
+
+    /**
+     * Get the nickname / username for the user.
+     *
+     * @return string
+     */
+    public function getNickname()
+    {
+        return null;
+    }
+
+    /**
+     * Get the full name of the user.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get the e-mail address of the user.
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Get the avatar / image URL for the user.
+     *
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return null;
     }
 }

@@ -57,14 +57,13 @@ class LoginController
             return $this->resolveRedirect('bifrost.redirects.after_login');
         }
 
-        return Socialite::driver('laravelpassport')->redirect();
+        return Socialite::driver('bifrost')->redirect();
     }
 
     public function callback()
     {
-        /** @var \Laravel\Socialite\AbstractUser $socialiteUser */
-        $socialiteUser = Socialite::driver('laravelpassport')->user();
-        $data = new BifrostUserData($socialiteUser->getRaw());
+        /** @var \EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData $data */
+        $data = Socialite::driver('bifrost')->user();
 
         // See if the user exists
         $user = BifrostBridge::resolveAndUpdateUser($data);

@@ -2,8 +2,8 @@
 
 namespace EtsvThor\BifrostBridge;
 
+use EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData;
 use Illuminate\Support\Arr;
-use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
 
 class BifrostSocialiteProvider extends AbstractProvider
@@ -67,13 +67,7 @@ class BifrostSocialiteProvider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id'       => 'id',
-            'nickname' => 'nickname',
-            'name'     => 'name',
-            'email'    => 'email',
-            'avatar'   => 'avatar',
-        ]);
+        return new BifrostUserData($user);
     }
 
     /**
