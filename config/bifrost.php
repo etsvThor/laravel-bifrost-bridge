@@ -18,8 +18,14 @@ return [
         // Key of the remote oauth id
         'oauth_user_id_key' => 'oauth_user_id',
 
+        // Key of the name field
+        'name_key' => 'name',
+
         // Key of the email field
         'email_key' => 'email',
+
+        // Key of the email_verified_at field
+        'email_verified_at_key' => 'email_verified_at',
     ],
 
     // Optional route prefix

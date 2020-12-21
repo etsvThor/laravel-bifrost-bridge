@@ -51,50 +51,13 @@ class LoginController
 
             // Login user
             Auth::login($user);
-            
+
             $this->notify($user->name . ' has been logged in automatically, as Bifrost is disabled');
 
             return $this->resolveRedirect('bifrost.redirects.after_login');
         }
 
         return Socialite::driver('laravelpassport')->redirect();
-    }
-
-    protected function retrieveOrCreateUser(BifrostUserData $data): ?Model
-    {
-        // Try to retrieve the user
-        $user = BifrostBridge::getUserClass()->where(BifrostBridge::oauthUserIdKey(), $data->oauth_user_id)->first();
-
-        if (is_null($user)) {
-            // See if the user has an e-mailaddress
-            if (is_null($data->emails) && is_null($data->email)) {
-                return BifrostBridge::retrieveUserWithoutEmail($data);
-            }
-
-            // There is an email, so find the user. Either from array of emails or single email value
-            if(is_null($data->emails)) {
-                $user = BifrostBridge::applyWithTrashed()->where(BifrostBridge::emailKey(), $data->email)->first();
-            } else {
-                $user = BifrostBridge::applyWithTrashed()->whereIn(BifrostBridge::emailKey(), $data->emails)->first();
-            }
-
-            // Nope, create a user
-            if (is_null($user)) {
-                $user = BifrostBridge::getUserClass()::forceCreate($data->except('roles', 'created_at', 'updated_at', 'emails')->toArray());
-            }
-
-            // Check if we need to verify email
-            if (BifrostBridge::isVerifyingEmail($user) && ! $user->hasVerifiedEmail()) {
-                return null;
-            }
-
-            // Check if the user is deleted
-            if (BifrostBridge::isSoftDeletable($user) && $user->trashed()) {
-                return null;
-            }
-        }
-
-        return $user;
     }
 
     public function callback()
@@ -104,26 +67,11 @@ class LoginController
         $data = new BifrostUserData($socialiteUser->getRaw());
 
         // See if the user exists
-        $user = $this->retrieveOrCreateUser($data);
+        $user = BifrostBridge::resolveAndUpdateUser($data);
 
         // If we have no user, something was wrong, either no verified email or deleted account
         if (is_null($user)) {
             abort(403, 'Cannot automatically link your account. Contact system administrator.');
-        }
-
-        // If the user has new info, force update it
-        if (Carbon::parse($data->updated_at)->greaterThan($user->updated_at)) {
-            $user->forceFill($data->except('roles', 'created_at', 'updated_at', 'emails')->toArray());
-            $user->save();
-        }
-
-        // Sync roles if applicable
-        if (! is_null($roleClass = BifrostBridge::getRoleClass())) {
-            // Sync roles that exist on this system
-            $roles = $roleClass::whereIn('name', $data->roles)->get();
-
-            // Force roles on this user
-            $user->syncRoles($roles);
         }
 
         // Login user

@@ -45,7 +45,7 @@ use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 // Default behaviour
 BifrostBridge::resolveUserClassUsing(function(/* auto injection works here */): EloquentModel {
-    return app('App\\Models\\User');
+    return app(config('bifrost.user.model', 'App\\Models\\User'));
 });
 
 // Default behaviour
@@ -56,8 +56,10 @@ BifrostBridge::resolveRoleClassUsing(function(/* auto injection works here */): 
 // Disabled role sync
 BifrostBridge::resolveRoleClassUsing(fn() => null);
 
-// If the system does not get an email, a user is retrieved using this method
-BifrostBridge::resolveUserWithoutEmailUsing(function(/* auto injection works here */, BifrostUserData $data): ?EloquentModel {
+// Override the way a user is resolved
+BifrostBridge::resolveAndUpdateUserUsing(function(/* auto injection works here */, BifrostUserData $data): ?EloquentModel {
+    // Model should implement \Illuminate\Contracts\Auth\Authenticatable
+
     return null; // when null is returned, the user is not logged in
 })
 ```

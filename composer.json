@@ -5,6 +5,10 @@
         {
             "name": "Niek Brekelmans",
             "email": "niekb@thor.edu"
+        },
+        {
+            "name": "Tom Janssen",
+            "email": "dododedodonl@thor.edu"
         }
     ],
     "homepage": "https://github.com/etsvthor/laravel-bifrost-bridge",
