@@ -7,23 +7,23 @@ trait SocialiteUser
     /**
      * The user's access token.
      *
-     * @var string
+     * @var string|null
      */
-    public ?string $token = null;
+    public $token;
 
     /**
      * The refresh token that can be exchanged for a new access token.
      *
-     * @var string
+     * @var string|null
      */
-    public ?string $refreshToken = null;
+    public $refreshToken;
 
     /**
      * The number of seconds the access token is valid for.
      *
-     * @var int
+     * @var int|null
      */
-    public ?int $expiresIn = null;
+    public $expiresIn;
 
     /**
      * Set the token on the user.
