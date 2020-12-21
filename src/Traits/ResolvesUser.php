@@ -17,7 +17,7 @@ trait ResolvesUser
      * @param callable|string|null $callback
      * @return void
      */
-    public static function resolveUserUsing($callback): void
+    public static function resolveAndUpdateUserUsing($callback): void
     {
         static::$userResolver = $callback;
     }
