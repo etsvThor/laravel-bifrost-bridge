@@ -2,15 +2,12 @@
 
 namespace EtsvThor\BifrostBridge\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Socialite\Facades\Socialite;
 use EtsvThor\BifrostBridge\BifrostBridge;
-use EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 class LoginController
