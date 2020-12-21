@@ -23,7 +23,7 @@ trait SocialiteUser
      *
      * @var int
      */
-    public ?string $expiresIn;
+    public ?int $expiresIn;
 
     /**
      * Set the token on the user.
