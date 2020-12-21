@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## 0.2.0 - 2020-12-21
+
+### Added
+- Way to override user resolving
+
+### Changed
+- Align multi e-email support with implemented version
+- Update resolving of user to bridge object
+
+### Removed
+- ResolveUsersWithoutEmail from bridge object
+
 ## 0.1.4 - 2020-12-20
 - Multiple e-mail addresses support
 

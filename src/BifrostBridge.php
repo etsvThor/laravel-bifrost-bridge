@@ -12,69 +12,25 @@ use Illuminate\Database\Eloquent\Builder;
 
 class BifrostBridge
 {
-    /** @var callable|string|null */
-    protected static $userClassResolver = null;
+    use Traits\ResolvesRoleClass, Traits\ResolvesUserClass, Traits\ResolvesUser;
 
-    /** @var callable|string|null */
-    protected static $roleClassResolver = null;
-
-    /** @var callable|string|null */
-    protected static $userWithoutEmailResolver = null;
-
-    /**
-     * @param callable|string|null $callback
-     * @return void
-     */
-    public static function resolveUserClassUsing($callback): void
+    // Resolvers
+    public static function resolveAndUpdateUser(BifrostUserData $data): ?Model
     {
-        static::$userClassResolver = $callback;
-    }
-
-    /**
-     * @param callable|string|null $callback
-     * @return void
-     */
-    public static function resolveRoleClassUsing($callback): void
-    {
-        static::$roleClassResolver = $callback;
-    }
-
-    /**
-     * @param callable|string|null $callback
-     * @return void
-     */
-    public static function resolveUserWithoutEmailUsing($callback): void
-    {
-        static::$userWithoutEmailResolver = $callback;
-    }
-
-    public static function retrieveUserWithoutEmail(BifrostUserData $data): ?Model
-    {
-        if (! is_null(static::$userWithoutEmailResolver)) {
-            return app()->call(static::$userWithoutEmailResolver, [$data]);
-        }
-
-        return null;
+        return app()->call(static::$userResolver ?? static::defaultUserResolver(), [$data]);
     }
 
     public static function getUserClass(): Model
     {
-        if (! is_null(static::$userClassResolver)) {
-            return app()->call(static::$userClassResolver);
-        }
-
-        return app(config('bifrost.user.model', 'App\\Models\\User'));
+        return app()->call(static::$userClassResolver ?? static::defaultUserClassResolver());
     }
 
     public static function getRoleClass(): ?Role
     {
-        if (! is_null(static::$roleClassResolver)) {
-            return app()->call(static::$roleClassResolver);
-        }
-
-        return app(PermissionRegistrar::class)->getRoleClass();
+        return app()->call(static::$roleClassResolver ?? static::defaultUserClassResolver());
     }
 
+    // Keys
     public static function oauthUserIdKey(): string
     {
         return config('bifrost.user.oauth_user_id_key', 'oauth_user_id');
@@ -85,6 +41,17 @@ class BifrostBridge
         return config('bifrost.user.email_key', 'email');
     }
 
+    public static function emailVerifiedAtKey(): string
+    {
+        return config('bifrost.user.email_verified_at_key', 'email_verified_at');
+    }
+
+    public static function nameKey(): string
+    {
+        return config('bifrost.user.name_key', 'name');
+    }
+
+    // Helpers
     public static function isSoftDeletable(Model $model = null): bool
     {
         return in_array(SoftDeletes::class, class_uses_recursive($model ?? static::getUserClass())) === true;
