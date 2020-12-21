@@ -31,7 +31,7 @@ class BifrostUserData extends DataTransferObject
         }
 
         if (! is_null($this->alternate_emails)) {
-            $this->all_emails = $this->all_emails + $this->alternate_emails;
+            $this->all_emails = array_merge($this->all_emails, $this->alternate_emails);
         }
     }
 }
