@@ -14,10 +14,10 @@
     "homepage": "https://github.com/etsvthor/laravel-bifrost-bridge",
     "require": {
         "php": "^7.4 | ~8.0.0",
-        "socialiteproviders/laravelpassport": "^4.1",
         "spatie/data-transfer-object": "^2.6",
         "spatie/laravel-permission": "^3.18",
-        "laravel/framework": "^6.18 | ^7.0 | ^8.0"
+        "laravel/framework": "^6.18 | ^7.0 | ^8.0",
+        "laravel/socialite": "^5.1"
     },
     "autoload": {
         "psr-4": {

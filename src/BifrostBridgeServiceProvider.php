@@ -2,11 +2,9 @@
 namespace EtsvThor\BifrostBridge;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use SocialiteProviders\Manager\SocialiteWasCalled;
-use SocialiteProviders\LaravelPassport\LaravelPassportExtendSocialite;
+use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
 
 class BifrostBridgeServiceProvider extends ServiceProvider
 {
@@ -17,9 +15,7 @@ class BifrostBridgeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->booting(function () {
-            Event::listen(SocialiteWasCalled::class, LaravelPassportExtendSocialite::class);
-        });
+        //
     }
 
     /**
@@ -37,6 +33,7 @@ class BifrostBridgeServiceProvider extends ServiceProvider
         $this->bootConfig();
         $this->bootRoutes();
         $this->bootMacros();
+        $this->bootSocialite();
     }
 
     protected function bootConfig(): void
@@ -71,6 +68,19 @@ class BifrostBridgeServiceProvider extends ServiceProvider
                 return ($this->hasHeader($header) && $this->header($header) === hash_hmac($algo, $this->getContent(), $key));
             });
         }
+    }
+
+    protected function bootSocialite(): void
+    {
+        $socialite = $this->app->make(SocialiteFactory::class);
+
+        $socialite->extend(
+            BifrostSocialiteProvider::class,
+            function () use ($socialite) {
+                /** @var \Laravel\Socialite\SocialiteManager $socialite */
+                return $socialite->buildProvider(BifrostSocialiteProvider::class, config('services.bifrost'));
+            }
+        );
     }
 
     /**
