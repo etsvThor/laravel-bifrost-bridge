@@ -63,7 +63,7 @@ class BifrostSocialiteProvider extends AbstractProvider
      *
      * @param array $user
      *
-     * @return \Laravel\Socialite\User
+     * @return \EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData
      */
     protected function mapUserToObject(array $user)
     {
