@@ -2,9 +2,11 @@
 
 namespace EtsvThor\BifrostBridge;
 
-use EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData;
 use Illuminate\Support\Arr;
+use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
+use Laravel\Socialite\Two\InvalidStateException;
+use EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData;
 
 class BifrostSocialiteProvider extends AbstractProvider
 {
@@ -63,11 +65,41 @@ class BifrostSocialiteProvider extends AbstractProvider
      *
      * @param array $user
      *
-     * @return \EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData
+     * @return \Laravel\Socialite\User
      */
     protected function mapUserToObject(array $user)
     {
-        return new BifrostUserData($user);
+        return (new User())->setRaw($user)->map([
+            'id'       => 'id',
+            'nickname' => 'nickname',
+            'name'     => 'name',
+            'email'    => 'email',
+            'avatar'   => 'avatar',
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function user()
+    {
+        if ($this->user && $this->user instanceof BifrostUserData) {
+            return $this->user;
+        }
+
+        if ($this->hasInvalidState()) {
+            throw new InvalidStateException;
+        }
+
+        $response = $this->getAccessTokenResponse($this->getCode());
+
+        $this->user = new BifrostUserData($this->getUserByToken(
+            $token = Arr::get($response, 'access_token')
+        ));
+
+        return $this->user->setToken($token)
+                    ->setRefreshToken(Arr::get($response, 'refresh_token'))
+                    ->setExpiresIn(Arr::get($response, 'expires_in'));
     }
 
     /**
