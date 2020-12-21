@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.3.0 - 2020-12-22
+
+### Added
+- bifrost socialite provider
+
+### Removed
+- laravelpassport socialite provider
+
 ## 0.2.0 - 2020-12-21
 
 ### Added
