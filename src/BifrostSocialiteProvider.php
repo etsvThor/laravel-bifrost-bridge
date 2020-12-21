@@ -101,6 +101,6 @@ class BifrostSocialiteProvider extends AbstractProvider
 
     protected function getConfig($key, $default = null)
     {
-        return config('services.bifrost.'.$key, $default);
+        return config('bifrost.service.'.$key, $default);
     }
 }

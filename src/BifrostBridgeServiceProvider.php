@@ -40,7 +40,6 @@ class BifrostBridgeServiceProvider extends ServiceProvider
     {
         // Merge configs
         $this->mergeConfigFrom(__DIR__.'/../config/bifrost.php', 'bifrost');
-        $this->mergeConfigFrom(__DIR__.'/../config/services.php', 'services');
     }
 
     protected function bootRoutes(): void
@@ -78,7 +77,7 @@ class BifrostBridgeServiceProvider extends ServiceProvider
             BifrostSocialiteProvider::class,
             function () use ($socialite) {
                 /** @var \Laravel\Socialite\SocialiteManager $socialite */
-                return $socialite->buildProvider(BifrostSocialiteProvider::class, config('services.bifrost'));
+                return $socialite->buildProvider(BifrostSocialiteProvider::class, config('bifrost.service'));
             }
         );
     }
