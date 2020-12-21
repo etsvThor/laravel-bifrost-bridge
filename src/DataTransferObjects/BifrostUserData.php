@@ -2,10 +2,13 @@
 
 namespace EtsvThor\BifrostBridge\DataTransferObjects;
 
+use Laravel\Socialite\Contracts\User;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class BifrostUserData extends DataTransferObject
+class BifrostUserData extends DataTransferObject implements User
 {
+    use Traits\SocialiteUser;
+
     public int     $oauth_user_id;
     public string  $name;
     public ?string $email = null;

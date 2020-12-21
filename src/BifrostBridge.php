@@ -17,7 +17,7 @@ class BifrostBridge
     // Resolvers
     public static function resolveAndUpdateUser(BifrostUserData $data): ?Model
     {
-        return app()->call(static::$userResolver ?? static::defaultUserResolver(), [$data]);
+        return app()->call(static::$userResolver ?? static::defaultUserResolver(), ['data' => $data]);
     }
 
     public static function getUserClass(): Model
