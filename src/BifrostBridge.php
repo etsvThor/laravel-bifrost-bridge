@@ -27,7 +27,7 @@ class BifrostBridge
 
     public static function getRoleClass(): ?Role
     {
-        return app()->call(static::$roleClassResolver ?? static::defaultUserClassResolver());
+        return app()->call(static::$roleClassResolver ?? static::defaultRoleClassResolver());
     }
 
     // Keys

@@ -58,6 +58,8 @@ BifrostBridge::resolveRoleClassUsing(fn() => null);
 
 // Override the way a user is resolved
 BifrostBridge::resolveAndUpdateUserUsing(function(/* auto injection works here */, BifrostUserData $data): ?EloquentModel {
+    // Model should implement \Illuminate\Contracts\Auth\Authenticatable
+
     return null; // when null is returned, the user is not logged in
 })
 ```
