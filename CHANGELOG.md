@@ -10,6 +10,7 @@
 ### Changed
 - Align multi e-email support with implemented version
 - Update resolving of user to bridge object
+- Only registers webhook when a push key is set
 
 ### Removed
 - ResolveUsersWithoutEmail from bridge object

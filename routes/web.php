@@ -8,4 +8,6 @@ Route::get('login', [LoginController::class, 'redirect'])->name('login');
 Route::get('login/callback', [LoginController::class, 'callback']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::post('webhooks/bifrost', [WebhookController::class, 'bifrost'])->name('webhooks.bifrost');
+if (! is_null(config('bifrost.auth_push_key'))) {
+    Route::post('webhooks/bifrost', [WebhookController::class, 'bifrost'])->name('webhooks.bifrost');
+}
