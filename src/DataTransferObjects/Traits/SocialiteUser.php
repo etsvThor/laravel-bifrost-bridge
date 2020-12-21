@@ -9,21 +9,21 @@ trait SocialiteUser
      *
      * @var string
      */
-    public $token;
+    public ?string $token;
 
     /**
      * The refresh token that can be exchanged for a new access token.
      *
      * @var string
      */
-    public $refreshToken;
+    public ?string $refreshToken;
 
     /**
      * The number of seconds the access token is valid for.
      *
      * @var int
      */
-    public $expiresIn;
+    public ?string $expiresIn;
 
     /**
      * Set the token on the user.
