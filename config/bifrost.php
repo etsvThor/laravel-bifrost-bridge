@@ -1,14 +1,14 @@
 <?php
 
 return [
-    // Wether or not bifrost auth is enabled
+    // Whether or not bifrost auth is enabled
     'enabled' => env('BIFROST_ENABLED', false),
 
     // Push key
     'auth_push_key' => env('BIFROST_AUTH_PUSH_KEY'),
 
-    // Wether or not to remove users from a role if it is deleted on bifrost
-    'auth_push_detech_on_remove' => true,
+    // Whether or not to remove users from a role if it is deleted on bifrost
+    'auth_push_detach_on_remove' => true,
 
     // User model options
     'user' => [

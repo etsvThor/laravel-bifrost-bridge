@@ -65,7 +65,7 @@ class ProcessWebhookBifrost implements ShouldQueue
             }
         }
 
-        if (config('bifrost.auth_push_detech_on_remove') === true) {
+        if (config('bifrost.auth_push_detach_on_remove') === true) {
             // If a role is not present on Bifrost anymore, remove all users from it.
             $existingOnSystemButNotBifrost = $allRoles->whereNotIn('name', collect($this->roles)->pluck('name'));
             foreach ($existingOnSystemButNotBifrost as $role) {
