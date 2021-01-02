@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.4.0 - 2021-01-02
+
+### Added
+- scope support
+- remember me support
+
 ## 0.3.0 - 2020-12-22
 
 ### Added
