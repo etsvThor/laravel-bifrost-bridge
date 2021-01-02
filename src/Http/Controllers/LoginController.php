@@ -47,7 +47,7 @@ class LoginController
             $user = BifrostBridge::getUserClass()::whereKey($request->get('id', 1))->firstOrFail();
 
             // Login user
-            Auth::login($user);
+            Auth::login($user, config('bifrost.remember_user', true));
 
             $this->notify($user->name . ' has been logged in automatically, as Bifrost is disabled');
 
@@ -71,7 +71,7 @@ class LoginController
         }
 
         // Login user
-        Auth::login($user);
+        Auth::login($user, config('bifrost.remember_user', true));
 
         // Set notification if there is a flash notifier
         $this->notify('Welcome ' . $user->name);

@@ -10,6 +10,9 @@ return [
     // Whether or not to remove users from a role if it is deleted on bifrost
     'auth_push_detach_on_remove' => true,
 
+    // Wether or not to remember the local user after a successful login
+    'remember_user' => true,
+
     // User model options
     'user' => [
         // Model that is used to login
