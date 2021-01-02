@@ -2,6 +2,7 @@
 
 namespace EtsvThor\BifrostBridge;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
@@ -13,12 +14,25 @@ class BifrostSocialiteProvider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [''];
+    protected $scopes;
 
     /**
      * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl, $guzzle = [])
+    {
+        parent::__construct($request, $clientId, $clientSecret, $redirectUrl, $guzzle);
+
+        // get scopes from config and set them
+        $this->setScopes(
+            $this->getConfig('scopes', [])
+        );
+    }
 
     /**
      * Get the authentication URL for the provider.
