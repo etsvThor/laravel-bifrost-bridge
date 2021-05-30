@@ -66,7 +66,11 @@ class ProcessWebhookBifrost implements ShouldQueue
 
             // Attach if needed
             if ($attach->count() > 0) {
-                $systemRole->users()->attach($attach, ['auto_assigned' => 1]);
+                if (config('bifrost.auto_assign', false)) {
+                    $systemRole->users()->attach($attach, ['auto_assigned' => 1]);
+                }
+
+                $systemRole->users()->attach($attach);
                 Log::debug('Attached ' . $systemRole->name . ' to users: ' . $attach->implode(', '));
             }
 
