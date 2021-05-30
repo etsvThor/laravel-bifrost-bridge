@@ -73,11 +73,42 @@ trait ResolvesUser
 
             // Sync roles if applicable
             if (! is_null($data->roles) && ! is_null($roleClass = BifrostBridge::getRoleClass())) {
-                // Sync roles that exist on this system
-                $roles = $roleClass::whereIn('name', $data->roles)->get();
+                if (config('bifrost.auto_assign', false)) {
+                    // Retrieve all system roles
+                    $allRoles = BifrostBridge::getRoleClass()->with('users')->get();
 
-                // Force roles on this user
-                $user->syncRoles($roles);
+                    // Retrieve current roles
+                    $existingRoles = $user->getRoleNames();
+
+                    // Sync roles that exist on this system
+                    $newRoles = collect($data->roles);
+
+                    // Calculate which roles to attach
+                    $toAttach = $newRoles
+                        ->diff($existingRoles)
+                        ->map(fn ($roleName) => optional($allRoles->where('name', $roleName)->first())->getKey())
+                        ->filter();
+
+                    // Calculate which roles to detach, only detach auto assigned roles
+                    $toDetach = $user->roles->whereIn('name', $existingRoles->diff($newRoles)->all())
+                        ->where('pivot.auto_assigned', 1);
+
+                    // Auto attach role
+                    if ($toAttach->count() > 0) {
+                        $user->roles()->attach($toAttach, ['auto_assigned' => 1]);
+                    }
+
+                    // Auto detach role
+                    if ($toDetach->count() > 0) {
+                        $user->roles()->detach($toDetach);
+                    }
+                } else {
+                    // Sync roles that exist on this system
+                    $roles = $roleClass::whereIn('name', $data->roles)->get();
+
+                    // Force roles on this user
+                    $user->syncRoles($roles);
+                }
             }
 
             return $user;

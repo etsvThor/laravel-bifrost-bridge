@@ -13,6 +13,10 @@ return [
     // Wether or not to remember the local user after a successful login
     'remember_user' => true,
 
+    // Whether or not to keep track of which roles are assigned by Bifrost, and only change roles assigned by Bifrost
+    // requires an 'auto_assigned' pivot in the user.roles and role.users relations
+    'auto_assign' => true,
+
     // User model options
     'user' => [
         // Model that is used to login
