@@ -15,7 +15,7 @@ return [
 
     // Whether or not to keep track of which roles are assigned by Bifrost, and only change roles assigned by Bifrost
     // requires an 'auto_assigned' pivot in the user.roles and role.users relations
-    'auto_assign' => true,
+    'auto_assign' => false,
 
     // User model options
     'user' => [
