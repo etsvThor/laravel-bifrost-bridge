@@ -57,7 +57,6 @@ class ProcessWebhookBifrost implements ShouldQueue
 
             // See who needs to be attached and detached
             $attach = BifrostBridge::getUserClass()::whereIn($oauthUserId, $newUsers->diff($oldUsers))
-                ->whereNotIn($userClassKey, $notAutoAssignedUsers) // Do not attach if this role is not auto assigned
                 ->pluck($userClassKey);
 
             $detach = BifrostBridge::getUserClass()::whereIn($oauthUserId, $oldUsers->diff($newUsers))
@@ -68,9 +67,10 @@ class ProcessWebhookBifrost implements ShouldQueue
             if ($attach->count() > 0) {
                 if (config('bifrost.auto_assign', false)) {
                     $systemRole->users()->attach($attach, ['auto_assigned' => 1]);
+                } else {
+                    $systemRole->users()->attach($attach);
                 }
 
-                $systemRole->users()->attach($attach);
                 Log::debug('Attached ' . $systemRole->name . ' to users: ' . $attach->implode(', '));
             }
 
