@@ -48,20 +48,36 @@ class ProcessWebhookBifrost implements ShouldQueue
             $newUsers = collect($bifrostRole->users);
             $oldUsers = $systemRole->users->pluck($oauthUserId)->filter();
 
+            if (config('bifrost.auto_assign', false)) {
+                // Get users who do not have this role auto assigned
+                $notAutoAssignedUsers = $systemRole->users->where('pivot.auto_assigned', 0)->pluck($userClassKey);
+            } else {
+                $notAutoAssignedUsers = [];
+            }
+
             // See who needs to be attached and detached
-            $attach = BifrostBridge::getUserClass()::whereIn($oauthUserId, $newUsers->diff($oldUsers))->pluck($userClassKey);
-            $detach = BifrostBridge::getUserClass()::whereIn($oauthUserId, $oldUsers->diff($newUsers))->pluck($userClassKey);
+            $attach = BifrostBridge::getUserClass()::whereIn($oauthUserId, $newUsers->diff($oldUsers))
+                ->pluck($userClassKey);
+
+            $detach = BifrostBridge::getUserClass()::whereIn($oauthUserId, $oldUsers->diff($newUsers))
+                ->whereNotIn($userClassKey, $notAutoAssignedUsers) // Do not detach if this role is not auto assigned
+                ->pluck($userClassKey);
 
             // Attach if needed
             if ($attach->count() > 0) {
-                $systemRole->users()->attach($attach);
+                if (config('bifrost.auto_assign', false)) {
+                    $systemRole->users()->attach($attach, ['auto_assigned' => 1]);
+                } else {
+                    $systemRole->users()->attach($attach);
+                }
+
                 Log::debug('Attached ' . $systemRole->name . ' to users: ' . $attach->implode(', '));
             }
 
             // Detach if needed
             if ($detach->count() > 0) {
                 $systemRole->users()->detach($detach);
-                Log::debug('Detached ' . $systemRole->name . ' from users: ' . $attach->implode(', '));
+                Log::debug('Detached ' . $systemRole->name . ' from users: ' . $detach->implode(', '));
             }
         }
 
