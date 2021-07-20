@@ -63,3 +63,6 @@ BifrostBridge::resolveAndUpdateUserUsing(function(/* auto injection works here *
     return null; // when null is returned, the user is not logged in
 })
 ```
+
+### CSRF
+Don't forget to add `'webhooks/bifrost'` to the `$except` array in `App\Http\Middleware\VerifyCsrfToken.php`. 
