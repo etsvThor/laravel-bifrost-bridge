@@ -44,7 +44,11 @@ class LoginController
             }
 
             // allow login without password for LOCAL environments when bifrost is NOT enabled
-            $user = BifrostBridge::getUserClass()::whereKey($request->get('id', 1))->firstOrFail();
+            if($request->has('id')) {
+                $user = BifrostBridge::getUserClass()::whereKey($request->get('id', 1))->firstOrFail();
+            } else {
+                $user = BifrostBridge::getUserClass()::firstOrFail();
+            }
 
             // Login user
             Auth::login($user, config('bifrost.remember_user', true));
