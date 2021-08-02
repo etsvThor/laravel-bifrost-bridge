@@ -80,6 +80,10 @@ class LoginController
         // Set notification if there is a flash notifier
         $this->notify('Welcome ' . $user->name);
 
+        if (session()->has('url.intended')) {
+            return redirect()->intended();
+        }
+
         return $this->resolveRedirect('bifrost.redirects.after_login');
     }
 
