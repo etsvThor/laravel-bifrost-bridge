@@ -17,9 +17,9 @@ php artisan vendor:publish --provider="EtsvThor\\BifrostBridge\\BifrostBridgeSer
 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 ```
 
-Ensure the `users` has a `oauth_user_id` and `email_verified_at` column.
-In the `User` model, cast `email_verified_at` to `datetime` and add the `HasRoles` trait.
-Please add `'webhooks/bifrost'` to the CSRF exceptions in `App\Http\Middleware\VerifyCsrfToken` class
+- Ensure the `users` has a `oauth_user_id` and `email_verified_at` column.
+- In the `User` model, cast `email_verified_at` to `datetime` and add the `HasRoles` trait.
+- Please add `'webhooks/bifrost'` to the CSRF exceptions in `App\Http\Middleware\VerifyCsrfToken` class
 
 ## Environment
 Add the following to your `.env` file and fill them in:
