@@ -11,10 +11,14 @@ You can then install the package via composer:
 composer require etsvthor/laravel-bifrost-bridge
 ```
 
-You can publish the config file with:
+You can publish the config file of bifrost and the underlying spatie permissions config+migrations with:
 ```bash
 php artisan vendor:publish --provider="EtsvThor\\BifrostBridge\\BifrostBridgeServiceProvider" --tag="bifrost-config"
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 ```
+
+Ensure the `users` has a `oauth_user_id` and `email_verified_at` column.
+In the `User` model, cast `email_verified_at` to `datetime` and add the `HasRoles` trait.
 
 ## Environment
 Add the following to your `.env` file and fill them in:
