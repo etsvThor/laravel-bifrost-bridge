@@ -41,6 +41,8 @@ In the configuration file, one can specify some thing about the user model, but 
 
 See [config/bifrost.php](config/bifrost.php) for all options.
 
+Make sure to seed all required roles, otherwise they will not sync
+
 ### Resolvers
 The `User` and `Role` model can be resolved using a custom resolver
 
