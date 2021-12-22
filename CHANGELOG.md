@@ -1,6 +1,15 @@
 # Changelog
+## 0.5.3 till 0.5.5 - 2021-08-14
+- Upgrade to PHP 8
 
-## Unreleased
+## 0.5.2 - 2021-08-02
+- Redirect to intended after login
+
+## 0.5.1 - 2021-08-01
+- Bug fixed where user_id=1 did not exist
+
+## 0.5.0 - 2021-05-31
+- `auto_assigned` boolean added to exclude syncing manual changes
 
 ## 0.4.0 - 2021-01-02
 
