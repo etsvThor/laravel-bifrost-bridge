@@ -1,4 +1,8 @@
 # Changelog
+## 0.5.6
+- Upgrade to Laravel 9
+- Remove support for Laravel 7 (EOL)
+
 ## 0.5.3 till 0.5.5 - 2021-08-14
 - Upgrade to PHP 8
 
