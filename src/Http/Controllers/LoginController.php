@@ -2,6 +2,7 @@
 
 namespace EtsvThor\BifrostBridge\Http\Controllers;
 
+use EtsvThor\BifrostBridge\Events\BifrostLogin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -76,6 +77,7 @@ class LoginController
 
         // Login user
         Auth::login($user, config('bifrost.remember_user', true));
+        BifrostLogin::dispatch($user, config('auth.defaults.guard'), config('bifrost.remember_user', true));
 
         // Set notification if there is a flash notifier
         $this->notify('Welcome ' . $user->name);
