@@ -1,4 +1,7 @@
 # Changelog
+## 0.5.7
+- Dispatch `BifrostLogin` event on succesfull login
+
 ## 0.5.6
 - Upgrade to Laravel 9
 - Remove support for Laravel 7 (EOL)
