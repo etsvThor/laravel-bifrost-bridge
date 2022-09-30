@@ -36,7 +36,7 @@ class ProcessWebhookBifrost implements ShouldQueue
         $oauthUserId = BifrostBridge::oauthUserIdKey();
         $userClassKey = BifrostBridge::getUserClass()->getKeyName();
 
-        foreach ($this->roles as $bifrostRole) {
+        foreach ($this->roles->roles as $bifrostRole) {
             $systemRole = $allRoles->where('name', $bifrostRole->name)->first();
 
             // Role does not exist, by default, don't create a role
@@ -83,7 +83,7 @@ class ProcessWebhookBifrost implements ShouldQueue
 
         if (config('bifrost.auth_push_detach_on_remove') === true) {
             // If a role is not present on Bifrost anymore, remove all users from it.
-            $existingOnSystemButNotBifrost = $allRoles->whereNotIn('name', collect($this->roles)->pluck('name'));
+            $existingOnSystemButNotBifrost = $allRoles->whereNotIn('name', collect($this->roles->roles)->pluck('name'));
             foreach ($existingOnSystemButNotBifrost as $role) {
                 $role->users()->detach(); // detach all users, but keep the role
                 Log::info('Role ' . $role->name . ' was removed on Bifrost. Detached all users.');

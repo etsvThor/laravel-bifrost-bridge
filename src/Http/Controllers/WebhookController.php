@@ -32,7 +32,7 @@ class WebhookController
         }
 
         ProcessWebhookBifrost::dispatch(
-            BifrostRoleDataCollection::create($request->get('roles'))
+            new BifrostRoleDataCollection(roles: $request->get('roles'))
         );
 
         return response()->json(['success' => true]);
