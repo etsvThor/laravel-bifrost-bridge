@@ -1,4 +1,13 @@
 # Changelog
+
+## 0.6.1
+- Upgrade to Laravel 10
+
+## 0.6.0
+- Upgrade to v3 of spatie/data-transfer-objects
+- Dropped support for Laravel 6.x
+- Dropped support for PHP 7.4
+
 ## 0.5.7
 - Dispatch `BifrostLogin` event on succesfull login
 
