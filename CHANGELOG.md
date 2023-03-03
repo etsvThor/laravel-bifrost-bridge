@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.2
+- Upgrade to PHP 8.2
+
 ## 0.6.1
 - Upgrade to Laravel 10
 
