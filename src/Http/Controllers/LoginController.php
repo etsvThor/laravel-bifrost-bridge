@@ -2,6 +2,7 @@
 
 namespace EtsvThor\BifrostBridge\Http\Controllers;
 
+use EtsvThor\BifrostBridge\Data\BifrostUserData;
 use EtsvThor\BifrostBridge\Events\BifrostLogin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -64,7 +65,7 @@ class LoginController
 
     public function callback()
     {
-        /** @var \EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData $data */
+        /** @var BifrostUserData $data */
         $data = Socialite::driver('bifrost')->user();
 
         // See if the user exists

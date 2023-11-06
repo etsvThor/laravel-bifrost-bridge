@@ -6,7 +6,7 @@ use Closure;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use EtsvThor\BifrostBridge\BifrostBridge;
-use EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData;
+use EtsvThor\BifrostBridge\Data\BifrostUserData;
 
 trait ResolvesUser
 {

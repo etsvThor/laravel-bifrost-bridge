@@ -1,37 +1,16 @@
 <?php
 
-namespace EtsvThor\BifrostBridge\DataTransferObjects\Traits;
+namespace EtsvThor\BifrostBridge\Data\Traits;
 
 trait SocialiteUser
 {
-    /**
-     * The user's access token.
-     *
-     * @var string|null
-     */
-    public $token;
-
-    /**
-     * The refresh token that can be exchanged for a new access token.
-     *
-     * @var string|null
-     */
-    public $refreshToken;
-
-    /**
-     * The number of seconds the access token is valid for.
-     *
-     * @var int|null
-     */
-    public $expiresIn;
-
-    /**
+   /**
      * Set the token on the user.
      *
      * @param  string  $token
      * @return $this
      */
-    public function setToken($token)
+    public function setToken(string $token)
     {
         $this->token = $token;
 
@@ -44,7 +23,7 @@ trait SocialiteUser
      * @param  string  $refreshToken
      * @return $this
      */
-    public function setRefreshToken($refreshToken)
+    public function setRefreshToken(string $refreshToken)
     {
         $this->refreshToken = $refreshToken;
 
@@ -57,7 +36,7 @@ trait SocialiteUser
      * @param  int  $expiresIn
      * @return $this
      */
-    public function setExpiresIn($expiresIn)
+    public function setExpiresIn(int $expiresIn)
     {
         $this->expiresIn = $expiresIn;
 
