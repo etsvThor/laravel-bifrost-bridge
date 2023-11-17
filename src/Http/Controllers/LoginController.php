@@ -65,7 +65,7 @@ class LoginController
 
     public function callback()
     {
-        /** @var BifrostUserData $data */
+        /** @var \EtsvThor\BifrostBridge\Data\BifrostUserData $data */
         $data = Socialite::driver('bifrost')->user();
 
         // See if the user exists
