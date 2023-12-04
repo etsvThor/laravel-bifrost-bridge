@@ -2,7 +2,7 @@
 
 namespace EtsvThor\BifrostBridge;
 
-use EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData;
+use EtsvThor\BifrostBridge\Data\BifrostUserData;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\PermissionRegistrar;

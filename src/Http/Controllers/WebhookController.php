@@ -2,7 +2,7 @@
 
 namespace EtsvThor\BifrostBridge\Http\Controllers;
 
-use EtsvThor\BifrostBridge\DataTransferObjects\Collections\BifrostRoleDataCollection;
+use EtsvThor\BifrostBridge\Data\BifrostRoleData;
 use EtsvThor\BifrostBridge\Jobs\ProcessWebhookBifrost;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,7 +32,7 @@ class WebhookController
         }
 
         ProcessWebhookBifrost::dispatch(
-            new BifrostRoleDataCollection(roles: $request->get('roles'))
+            BifrostRoleData::collection($request->get('roles')),
         );
 
         return response()->json(['success' => true]);

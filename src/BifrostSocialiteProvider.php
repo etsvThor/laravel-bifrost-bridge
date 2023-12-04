@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\InvalidStateException;
-use EtsvThor\BifrostBridge\DataTransferObjects\BifrostUserData;
+use EtsvThor\BifrostBridge\Data\BifrostUserData;
 
 class BifrostSocialiteProvider extends AbstractProvider
 {
@@ -79,7 +79,7 @@ class BifrostSocialiteProvider extends AbstractProvider
      *
      * @param array $user
      *
-     * @return \Laravel\Socialite\User
+     * @return \Laravel\Socialite\Two\User
      */
     protected function mapUserToObject(array $user)
     {
@@ -107,9 +107,16 @@ class BifrostSocialiteProvider extends AbstractProvider
 
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        $this->user = new BifrostUserData($this->getUserByToken(
+        $userData = $this->getUserByToken(
             $token = Arr::get($response, 'access_token')
-        ));
+        );
+
+        if (array_key_exists('id', $userData)) {
+            $userData['oauth_user_id'] = $userData['id'];
+            unset($userData['id']);
+        }
+
+        $this->user = BifrostUserData::from($userData);
 
         return $this->user->setToken($token)
                     ->setRefreshToken(Arr::get($response, 'refresh_token'))
