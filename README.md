@@ -5,6 +5,8 @@ Connect a laravel application with the Bifrost
 
 ## Installation
 
+First, install [spatie/laravel-permission](https://github.com/spatie/laravel-permission), follow their installation guide
+
 You can then install the package via composer:
 
 ```bash
@@ -14,7 +16,6 @@ composer require etsvthor/laravel-bifrost-bridge
 You can publish the config file of bifrost and the underlying spatie permissions config+migrations with:
 ```bash
 php artisan vendor:publish --provider="EtsvThor\\BifrostBridge\\BifrostBridgeServiceProvider" --tag="bifrost-config"
-php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 ```
 
 - Ensure the `users` has a `oauth_user_id` and `email_verified_at` column.
