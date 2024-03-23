@@ -3,10 +3,11 @@
 ## 1.0.0
 - Support laravel 11
 - Support spatie/laravel-data 4.0
+- Support filament/notifications next to laracasts/flash
 
 ## 0.6.3
 - Support PHP 8.3
-  
+
 ## 0.6.2
 - Upgrade to PHP 8.2
 
