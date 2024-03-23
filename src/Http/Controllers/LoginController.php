@@ -2,6 +2,7 @@
 
 namespace EtsvThor\BifrostBridge\Http\Controllers;
 
+use Error;
 use EtsvThor\BifrostBridge\Data\BifrostUserData;
 use EtsvThor\BifrostBridge\Events\BifrostLogin;
 use Illuminate\Http\Request;
@@ -26,15 +27,42 @@ class LoginController
             : redirect()->to($route);
     }
 
-    protected function notify(string $message, string $type = 'success'): bool
+    private function tryFlashNotification(string $message, string $type = 'success'): bool
     {
         try {
             app('flash')->message($message, $type);
-        } catch (BindingResolutionException $e) {
+        } catch (BindingResolutionException) {
             return false;
         }
 
         return true;
+    }
+
+    private function tryFilamentNotification(string $message, string $type = 'success'): bool
+    {
+        $class = 'Filament\\Notifications\\Notification';
+        if (! class_exists($class)) {
+            return false;
+        }
+
+        $notification = $class::make()
+            ->body($message);
+
+        $notification = match($type) {
+            'success' => $notification->success(),
+            'error' => $notification->danger(),
+            'warning' => $notification->warning(),
+            default => $notification,
+        };
+
+        $notification->send();
+
+        return true;
+    }
+
+    protected function notify(string $message, string $type = 'success'): bool
+    {
+        return $this->tryFlashNotification($message, $type) || $this->tryFilamentNotification($message, $type);
     }
 
 

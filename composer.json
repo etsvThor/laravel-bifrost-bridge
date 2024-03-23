@@ -25,7 +25,8 @@
         }
     },
     "suggest": {
-        "laracasts/flash": "Show messages on login and logout"
+        "laracasts/flash": "Show flash messages on login and logout",
+        "filament/notifications": "Show filament notifications on login and logout"
     },
     "license": "MIT",
     "extra": {
