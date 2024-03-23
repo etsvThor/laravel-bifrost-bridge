@@ -40,21 +40,22 @@ class LoginController
 
     private function tryFilamentNotification(string $message, string $type = 'success'): bool
     {
-        try {
-            $notification = \Filament\Notifications\Notification::make()
-                ->body($message);
-
-            $notification = match($type) {
-                'success' => $notification->success(),
-                'error' => $notification->danger(),
-                'warning' => $notification->warning(),
-                default => $notification,
-            };
-
-            $notification->send();
-        } catch (Error) {
+        $class = 'Filament\\Notifications\\Notification';
+        if (! class_exists($class)) {
             return false;
         }
+
+        $notification = $class::make()
+            ->body($message);
+
+        $notification = match($type) {
+            'success' => $notification->success(),
+            'error' => $notification->danger(),
+            'warning' => $notification->warning(),
+            default => $notification,
+        };
+
+        $notification->send();
 
         return true;
     }
