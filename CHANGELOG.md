@@ -1,4 +1,8 @@
 # Changelog
+## 1.0.1
+- Follow upgrade guide for laravel-data
+- Drop support for laravel 9
+- Drop support for `spatie/laravel-data` v3
 
 ## 1.0.0
 - Support laravel 11
