@@ -6,6 +6,7 @@ use EtsvThor\BifrostBridge\Data\BifrostRoleData;
 use EtsvThor\BifrostBridge\Jobs\ProcessWebhookBifrost;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Spatie\LaravelData\DataCollection;
 
 class WebhookController
 {
@@ -32,7 +33,7 @@ class WebhookController
         }
 
         ProcessWebhookBifrost::dispatch(
-            BifrostRoleData::collection($request->get('roles')),
+            BifrostRoleData::collect($request->get('roles'), DataCollection::class),
         );
 
         return response()->json(['success' => true]);
