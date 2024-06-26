@@ -50,7 +50,7 @@ trait ResolvesUser
                 }
 
                 // Check if we need to verify email
-                if (BifrostBridge::isVerifyingEmail($user) && ! $user->hasVerifiedEmail()) {
+                if (BifrostBridge::isVerifyingEmail($user) && BifrostBridge::requiresVerifiedEmail() && ! $user->hasVerifiedEmail()) {
                     return null;
                 }
 

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class BifrostBridge
 {
-    use Traits\ResolvesRoleClass, Traits\ResolvesUserClass, Traits\ResolvesUser;
+    use Traits\ResolvesRoleClass, Traits\ResolvesUserClass, Traits\ResolvesUser, Traits\ResolvesRequiresVerifiedEmail;
 
     // Resolvers
     public static function resolveAndUpdateUser(BifrostUserData $data): ?Model
@@ -28,6 +28,11 @@ class BifrostBridge
     public static function getRoleClass(): ?Role
     {
         return app()->call(static::$roleClassResolver ?? static::defaultRoleClassResolver());
+    }
+
+    public static function requiresVerifiedEmail(): bool
+    {
+        return app()->call(static::$requiresVerifiedEmailResolver ?? static::defaultRequiresVerifiedEmailResolver());
     }
 
     // Keys
