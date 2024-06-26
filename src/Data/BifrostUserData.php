@@ -24,13 +24,15 @@ class BifrostUserData extends Data implements User
         public ?array  $alternate_emails = [],
         public array   $roles = [],
     )
-    {
-        if (! is_null($this->email)) {
-            $this->all_emails = [$this->email];
-        }
+    {}
 
-        if (! is_null($this->alternate_emails)) {
-            $this->all_emails = array_merge($this->all_emails, $this->alternate_emails);
-        }
+    /**
+     * @return array<string, mixed>
+     */
+    public function with(): array
+    {
+        return [
+            'all_emails' => collect([$this->email])->merge($this->alternate_emails ?? [])->filter()->all()
+        ];
     }
 }
