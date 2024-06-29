@@ -22,6 +22,8 @@ return [
         // Model that is used to login
         'model' => 'App\\Models\\User',
 
+        'requires_verified_email' => true,
+
         // Key of the remote oauth id
         'oauth_user_id_key' => 'oauth_user_id',
 

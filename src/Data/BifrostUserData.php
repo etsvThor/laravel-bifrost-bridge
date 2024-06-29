@@ -9,11 +9,6 @@ class BifrostUserData extends Data implements User
 {
     use Traits\SocialiteUser;
 
-    /**
-     * @var string[]
-     */
-    public array $all_emails = [];
-
     public function __construct(
         public int     $oauth_user_id,
         public string  $name,
@@ -24,13 +19,13 @@ class BifrostUserData extends Data implements User
         public ?array  $alternate_emails = [],
         public array   $roles = [],
     )
-    {
-        if (! is_null($this->email)) {
-            $this->all_emails = [$this->email];
-        }
+    {}
 
-        if (! is_null($this->alternate_emails)) {
-            $this->all_emails = array_merge($this->all_emails, $this->alternate_emails);
-        }
+    /**
+     * @return array<int, string>
+     */
+    public function allEmails(): array
+    {
+        return collect([$this->email])->merge($this->alternate_emails ?? [])->filter()->all();
     }
 }

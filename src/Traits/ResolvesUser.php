@@ -30,13 +30,13 @@ trait ResolvesUser
 
             if (is_null($user)) {
                 // See if the user has an e-mailaddress
-                if (count($data->all_emails) < 1) {
+                if (count($data->allEmails()) < 1) {
                     return null;
                 }
 
                 // There is an email, so find the user. Either from array of emails or single email value
                 $user = BifrostBridge::applyWithTrashed()
-                    ->whereIn(BifrostBridge::emailKey(), $data->all_emails)
+                    ->whereIn(BifrostBridge::emailKey(), $data->allEmails())
                     ->first();
 
                 // Nope, create a user
@@ -50,7 +50,7 @@ trait ResolvesUser
                 }
 
                 // Check if we need to verify email
-                if (BifrostBridge::isVerifyingEmail($user) && ! $user->hasVerifiedEmail()) {
+                if (BifrostBridge::isVerifyingEmail($user) && BifrostBridge::requiresVerifiedEmail() && ! $user->hasVerifiedEmail()) {
                     return null;
                 }
 
