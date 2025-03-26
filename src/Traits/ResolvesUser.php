@@ -46,8 +46,8 @@ trait ResolvesUser
                     BifrostBridge::emailVerifiedAtKey() => $data->email_verified_at,
                 ];
 
-                if (! is_null(BifrostBridge::MemberIdKey())) {
-                    $mappedData[BifrostBridge::MemberIdKey()] = $data->member_id;
+                if (! is_null(BifrostBridge::memberIdKey())) {
+                    $mappedData[BifrostBridge::memberIdKey()] = $data->member_id;
                 }
 
                 // Nope, create a user
