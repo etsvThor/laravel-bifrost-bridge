@@ -28,6 +28,17 @@ trait ResolvesUser
             // Try to retrieve the user
             $user = BifrostBridge::getUserClass()->where(BifrostBridge::oauthUserIdKey(), $data->oauth_user_id)->first();
 
+            $mappedData = [
+                BifrostBridge::oauthUserIdKey() => $data->oauth_user_id,
+                BifrostBridge::nameKey()  => $data->name,
+                BifrostBridge::emailKey() => $data->email,
+                BifrostBridge::emailVerifiedAtKey() => $data->email_verified_at,
+            ];
+
+            if (! is_null(BifrostBridge::memberIdKey())) {
+                $mappedData[BifrostBridge::memberIdKey()] = $data->member_id;
+            }
+
             if (is_null($user)) {
                 // See if the user has an e-mailaddress
                 if (count($data->allEmails()) < 1) {
@@ -38,17 +49,6 @@ trait ResolvesUser
                 $user = BifrostBridge::applyWithTrashed()
                     ->whereIn(BifrostBridge::emailKey(), $data->allEmails())
                     ->first();
-
-                $mappedData = [
-                    BifrostBridge::oauthUserIdKey() => $data->oauth_user_id,
-                    BifrostBridge::nameKey()  => $data->name,
-                    BifrostBridge::emailKey() => $data->email,
-                    BifrostBridge::emailVerifiedAtKey() => $data->email_verified_at,
-                ];
-
-                if (! is_null(BifrostBridge::memberIdKey())) {
-                    $mappedData[BifrostBridge::memberIdKey()] = $data->member_id;
-                }
 
                 // Nope, create a user
                 if (is_null($user)) {
