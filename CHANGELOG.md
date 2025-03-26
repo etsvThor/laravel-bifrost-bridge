@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.1 - 2025-03-26
+
+### What's Changed
+
+* Bugfix
+
+**Full Changelog**: https://github.com/etsvThor/laravel-bifrost-bridge/compare/1.2.0...1.2.1
+
 ## 1.2.0 - 2025-03-26
 
 ### What's Changed
