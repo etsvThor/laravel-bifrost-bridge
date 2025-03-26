@@ -52,7 +52,7 @@ trait ResolvesUser
 
                 // Nope, create a user
                 if (is_null($user)) {
-                    $user = BifrostBridge::getUserClass()::forceCreate($data);
+                    $user = BifrostBridge::getUserClass()::forceCreate($mappedData);
                 }
 
                 // Check if we need to verify email
