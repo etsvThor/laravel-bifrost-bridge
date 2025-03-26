@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.2.0 - 2025-03-26
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/etsvThor/laravel-bifrost-bridge/pull/28
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/etsvThor/laravel-bifrost-bridge/pull/29
+* add member_id optionally on login by @niekbr in https://github.com/etsvThor/laravel-bifrost-bridge/pull/30
+
+### New Contributors
+
+* @dependabot made their first contribution in https://github.com/etsvThor/laravel-bifrost-bridge/pull/28
+
+**Full Changelog**: https://github.com/etsvThor/laravel-bifrost-bridge/compare/1.1.0...1.2.0
+
 ## 1.1.0 - 2024-07-03
 
 ### What's Changed
