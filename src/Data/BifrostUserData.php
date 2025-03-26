@@ -18,6 +18,7 @@ class BifrostUserData extends Data implements User
         public ?string $email_verified_at = null,
         public ?array  $alternate_emails = [],
         public array   $roles = [],
+        public ?int    $member_id = null,
     )
     {}
 

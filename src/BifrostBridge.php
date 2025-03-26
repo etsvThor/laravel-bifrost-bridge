@@ -56,6 +56,11 @@ class BifrostBridge
         return config('bifrost.user.name_key', 'name');
     }
 
+    public static function MemberIdKey(): ?string
+    {
+        return config('bifrost.user.member_id_key'); // no default to prevent breaking change
+    }
+
     // Helpers
     public static function isSoftDeletable(Model $model = null): bool
     {

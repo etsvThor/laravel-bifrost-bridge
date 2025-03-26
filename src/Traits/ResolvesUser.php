@@ -39,14 +39,20 @@ trait ResolvesUser
                     ->whereIn(BifrostBridge::emailKey(), $data->allEmails())
                     ->first();
 
+                $mappedData = [
+                    BifrostBridge::oauthUserIdKey() => $data->oauth_user_id,
+                    BifrostBridge::nameKey()  => $data->name,
+                    BifrostBridge::emailKey() => $data->email,
+                    BifrostBridge::emailVerifiedAtKey() => $data->email_verified_at,
+                ];
+
+                if (! is_null(BifrostBridge::MemberIdKey())) {
+                    $mappedData[BifrostBridge::MemberIdKey()] = $data->member_id;
+                }
+
                 // Nope, create a user
                 if (is_null($user)) {
-                    $user = BifrostBridge::getUserClass()::forceCreate([
-                        BifrostBridge::oauthUserIdKey() => $data->oauth_user_id,
-                        BifrostBridge::nameKey()  => $data->name,
-                        BifrostBridge::emailKey() => $data->email,
-                        BifrostBridge::emailVerifiedAtKey() => $data->email_verified_at,
-                    ]);
+                    $user = BifrostBridge::getUserClass()::forceCreate($data);
                 }
 
                 // Check if we need to verify email
@@ -62,12 +68,7 @@ trait ResolvesUser
 
             // If the user has new info, force update it
             if (Carbon::parse($data->updated_at)->greaterThan($user->{$user->getUpdatedAtColumn()})) {
-                $user->forceFill([
-                    BifrostBridge::oauthUserIdKey() => $data->oauth_user_id,
-                    BifrostBridge::nameKey()  => $data->name,
-                    BifrostBridge::emailKey() => $data->email,
-                    BifrostBridge::emailVerifiedAtKey() => $data->email_verified_at,
-                ]);
+                $user->forceFill($mappedData);
                 $user->save();
             }
 
