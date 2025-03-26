@@ -35,6 +35,9 @@ return [
 
         // Key of the email_verified_at field
         'email_verified_at_key' => 'email_verified_at',
+
+        // Key of the member_id field (leave null to leave out)
+        'member_id_key' => null,
     ],
 
     // Optional route prefix
