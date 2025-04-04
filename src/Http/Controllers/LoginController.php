@@ -88,7 +88,9 @@ class LoginController
             return $this->resolveRedirect('bifrost.redirects.after_login');
         }
 
-        return Socialite::driver('bifrost')->redirect();
+        return Socialite::driver('bifrost')
+            ->shouldRegister($request->get('register', config('bifrost.service.register', false)))
+            ->redirect();
     }
 
     public function callback()

@@ -34,6 +34,12 @@ class BifrostSocialiteProvider extends AbstractProvider
         );
     }
 
+    public function shouldRegister(bool $shouldRegister = true): self
+    {
+        Arr::set($this->parameters, 'register', $shouldRegister);
+        return $this;
+    }
+
     /**
      * Get the authentication URL for the provider.
      *
