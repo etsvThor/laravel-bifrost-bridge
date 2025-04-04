@@ -2,6 +2,7 @@
 
 namespace EtsvThor\BifrostBridge;
 
+use EtsvThor\BifrostBridge\Enums\Intended;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\User;
@@ -34,9 +35,9 @@ class BifrostSocialiteProvider extends AbstractProvider
         );
     }
 
-    public function shouldRegister(bool $shouldRegister = true): self
+    public function intended(Intended $intended = null): self
     {
-        Arr::set($this->parameters, 'register', $shouldRegister);
+        Arr::set($this->parameters, 'intended', ($intended ?? Intended::default())?->value);
         return $this;
     }
 

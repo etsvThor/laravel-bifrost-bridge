@@ -63,7 +63,7 @@ return [
         'token_uri'     => 'oauth/token',
         'userinfo_uri'  => 'api/user',
 
-        'register'      => false,
+        'intended'      => 'login',
 
         'scopes'        => [],
 

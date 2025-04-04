@@ -3,7 +3,9 @@
 namespace EtsvThor\BifrostBridge\Http\Controllers;
 
 use Error;
+use EtsvThor\BifrostBridge\BifrostSocialiteProvider;
 use EtsvThor\BifrostBridge\Data\BifrostUserData;
+use EtsvThor\BifrostBridge\Enums\Intended;
 use EtsvThor\BifrostBridge\Events\BifrostLogin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -88,8 +90,10 @@ class LoginController
             return $this->resolveRedirect('bifrost.redirects.after_login');
         }
 
+        $intended = $request->get('intended', config('bifrost.service.intended', 'login'));
+
         return Socialite::driver('bifrost')
-            ->shouldRegister($request->get('register', config('bifrost.service.register', false)))
+            ->intended(Intended::from($intended))
             ->redirect();
     }
 
