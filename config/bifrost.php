@@ -63,6 +63,8 @@ return [
         'token_uri'     => 'oauth/token',
         'userinfo_uri'  => 'api/user',
 
+        'intended'      => 'login',
+
         'scopes'        => [],
 
         'guzzle'        => [],
