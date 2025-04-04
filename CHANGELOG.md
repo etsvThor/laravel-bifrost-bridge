@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.2 - 2025-04-04
+
+### What's Changed
+
+* redirect to register option by @niekbr in https://github.com/etsvThor/laravel-bifrost-bridge/pull/31
+
+**Full Changelog**: https://github.com/etsvThor/laravel-bifrost-bridge/compare/1.2.1...1.2.2
+
 ## 1.2.1 - 2025-03-26
 
 ### What's Changed
