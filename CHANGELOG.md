@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 - 2025-07-03
+
+### What's Changed
+
+* Support laravel 12
+
+**Full Changelog**: https://github.com/etsvThor/laravel-bifrost-bridge/compare/1.2.2...1.3.0
+
 ## 1.2.2 - 2025-04-04
 
 ### What's Changed
