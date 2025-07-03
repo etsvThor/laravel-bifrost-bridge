@@ -1,6 +1,7 @@
 <?php
 namespace EtsvThor\BifrostBridge;
 
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -48,6 +49,15 @@ class BifrostBridgeServiceProvider extends ServiceProvider
         Route::group($this->routeConfiguration(), function () {
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         });
+
+        if (
+            version_compare($this->app->version(), '11.0', '>=')
+            && method_exists(VerifyCsrfToken::class, 'except')
+        ) {
+            VerifyCsrfToken::except([
+                'webhooks/bifrost',
+            ]);
+        }
     }
 
     protected function routeConfiguration(): array
