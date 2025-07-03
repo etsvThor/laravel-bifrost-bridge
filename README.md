@@ -72,5 +72,5 @@ BifrostBridge::resolveAndUpdateUserUsing(function(/* auto injection works here *
 })
 ```
 
-### CSRF
+### CSRF (laravel <11 only)
 Don't forget to add `'webhooks/bifrost'` to the `$except` array in `App\Http\Middleware\VerifyCsrfToken.php`. 
