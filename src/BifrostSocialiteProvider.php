@@ -35,7 +35,7 @@ class BifrostSocialiteProvider extends AbstractProvider
         );
     }
 
-    public function intended(Intended $intended = null): self
+    public function intended(Intended | null $intended = null): self
     {
         Arr::set($this->parameters, 'intended', ($intended ?? Intended::default())?->value);
         return $this;

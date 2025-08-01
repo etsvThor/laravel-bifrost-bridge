@@ -62,17 +62,17 @@ class BifrostBridge
     }
 
     // Helpers
-    public static function isSoftDeletable(Model $model = null): bool
+    public static function isSoftDeletable(Model | null $model = null): bool
     {
         return in_array(SoftDeletes::class, class_uses_recursive($model ?? static::getUserClass())) === true;
     }
 
-    public static function isVerifyingEmail(Model $model = null): bool
+    public static function isVerifyingEmail(Model | null $model = null): bool
     {
         return (($model ?? static::getUserClass()) instanceof MustVerifyEmail);
     }
 
-    public static function applyWithTrashed(Model $model = null): Builder
+    public static function applyWithTrashed(Model | null $model = null): Builder
     {
         return static::isSoftDeletable($model ??= static::getUserClass())
             ? $model->withTrashed()
