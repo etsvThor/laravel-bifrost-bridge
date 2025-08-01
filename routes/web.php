@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use EtsvThor\BifrostBridge\Http\Controllers\LoginController;
 use EtsvThor\BifrostBridge\Http\Controllers\WebhookController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('login', [LoginController::class, 'redirect'])->name('login');
 Route::get('login/callback', [LoginController::class, 'callback']);

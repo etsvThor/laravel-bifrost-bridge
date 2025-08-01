@@ -20,6 +20,6 @@ trait ResolvesRequiresVerifiedEmail
 
     public static function defaultRequiresVerifiedEmailResolver(): Closure
     {
-        return fn() => app(config('bifrost.user.requires_verified_email', true));
+        return fn () => app(config('bifrost.user.requires_verified_email', true));
     }
 }

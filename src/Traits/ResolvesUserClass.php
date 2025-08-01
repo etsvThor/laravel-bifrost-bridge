@@ -20,6 +20,6 @@ trait ResolvesUserClass
 
     public static function defaultUserClassResolver(): Closure
     {
-        return fn() => app(config('bifrost.user.model', 'App\\Models\\User'));
+        return fn () => app(config('bifrost.user.model', 'App\\Models\\User'));
     }
 }

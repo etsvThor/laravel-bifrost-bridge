@@ -3,12 +3,12 @@
 namespace EtsvThor\BifrostBridge;
 
 use EtsvThor\BifrostBridge\Data\BifrostUserData;
-use Spatie\Permission\Models\Role;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class BifrostBridge
 {
@@ -69,7 +69,7 @@ class BifrostBridge
 
     public static function isVerifyingEmail(Model | null $model = null): bool
     {
-        return (($model ?? static::getUserClass()) instanceof MustVerifyEmail);
+        return ($model ?? static::getUserClass()) instanceof MustVerifyEmail;
     }
 
     public static function applyWithTrashed(Model | null $model = null): Builder

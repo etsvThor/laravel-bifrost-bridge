@@ -2,11 +2,11 @@
 
 namespace EtsvThor\BifrostBridge\Traits;
 
-use Closure;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use Closure;
 use EtsvThor\BifrostBridge\BifrostBridge;
 use EtsvThor\BifrostBridge\Data\BifrostUserData;
+use Illuminate\Database\Eloquent\Model;
 
 trait ResolvesUser
 {
@@ -24,13 +24,13 @@ trait ResolvesUser
 
     public static function defaultUserResolver(): Closure
     {
-        return function(BifrostUserData $data): ?Model {
+        return function (BifrostUserData $data): ?Model {
             // Try to retrieve the user
             $user = BifrostBridge::getUserClass()->query()->where(BifrostBridge::oauthUserIdKey(), $data->oauth_user_id)->first();
 
             $mappedData = [
                 BifrostBridge::oauthUserIdKey() => $data->oauth_user_id,
-                BifrostBridge::nameKey()  => $data->name,
+                BifrostBridge::nameKey() => $data->name,
                 BifrostBridge::emailKey() => $data->email,
                 BifrostBridge::emailVerifiedAtKey() => $data->email_verified_at,
             ];

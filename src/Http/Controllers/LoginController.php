@@ -3,17 +3,17 @@
 namespace EtsvThor\BifrostBridge\Http\Controllers;
 
 use Error;
+use EtsvThor\BifrostBridge\BifrostBridge;
 use EtsvThor\BifrostBridge\BifrostSocialiteProvider;
 use EtsvThor\BifrostBridge\Data\BifrostUserData;
 use EtsvThor\BifrostBridge\Enums\Intended;
 use EtsvThor\BifrostBridge\Events\BifrostLogin;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
-use EtsvThor\BifrostBridge\BifrostBridge;
-use Illuminate\Contracts\Container\BindingResolutionException;
 
 class LoginController
 {
@@ -50,7 +50,7 @@ class LoginController
         $notification = $class::make()
             ->body($message);
 
-        $notification = match($type) {
+        $notification = match ($type) {
             'success' => $notification->success(),
             'error' => $notification->danger(),
             'warning' => $notification->warning(),
@@ -67,7 +67,6 @@ class LoginController
         return $this->tryFlashNotification($message, $type) || $this->tryFilamentNotification($message, $type);
     }
 
-
     public function redirect(Request $request)
     {
         if (config('bifrost.enabled') !== true) {
@@ -76,7 +75,7 @@ class LoginController
             }
 
             // allow login without password for LOCAL environments when bifrost is NOT enabled
-            if($request->has('id')) {
+            if ($request->has('id')) {
                 $user = BifrostBridge::getUserClass()::query()->whereKey($request->get('id', 1))->firstOrFail();
             } else {
                 $user = BifrostBridge::getUserClass()::query()->firstOrFail();
@@ -85,7 +84,7 @@ class LoginController
             // Login user
             Auth::login($user, config('bifrost.remember_user', true)); // @phpstan-ignore argument.type
 
-            $this->notify(($user->getAttribute('name') ?? 'The first user') . ' has been logged in automatically, as Bifrost is disabled');
+            $this->notify(($user->getAttribute('name') ?? 'The first user').' has been logged in automatically, as Bifrost is disabled');
 
             return $this->resolveRedirect('bifrost.redirects.after_login');
         }
@@ -118,7 +117,7 @@ class LoginController
         BifrostLogin::dispatch($user, config('auth.defaults.guard'), config('bifrost.remember_user', true));
 
         // Set notification if there is a flash notifier
-        $this->notify('Welcome ' . ($user->getAttribute('name') ?? ''));
+        $this->notify('Welcome '.($user->getAttribute('name') ?? ''));
 
         if (session()->has('url.intended')) {
             return redirect()->intended();

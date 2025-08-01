@@ -10,17 +10,17 @@ class BifrostUserData extends Data implements User
     use Traits\SocialiteUser;
 
     public function __construct(
-        public int     $oauth_user_id,
-        public string  $name,
-        public string  $created_at,
-        public string  $updated_at,
+        public int $oauth_user_id,
+        public string $name,
+        public string $created_at,
+        public string $updated_at,
         public ?string $email = null,
         public ?string $email_verified_at = null,
-        public ?array  $alternate_emails = [],
-        public array   $roles = [],
-        public ?int    $member_id = null,
-    )
-    {}
+        public ?array $alternate_emails = [],
+        public array $roles = [],
+        public ?int $member_id = null,
+    ) {
+    }
 
     /**
      * @return array<int, string>

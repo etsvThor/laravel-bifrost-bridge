@@ -13,8 +13,8 @@ class WebhookController
     /**
      * Synchronize roles with bifrost
      *
-     * @param Request $request
-     * @return JsonResponse
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function bifrost(Request $request): JsonResponse
     {

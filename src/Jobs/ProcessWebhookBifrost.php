@@ -21,14 +21,15 @@ class ProcessWebhookBifrost implements ShouldQueue
      */
     public function __construct(
         protected DataCollection $roles,
-    )
-    {}
+    ) {
+    }
 
     public function handle(): void
     {
         // Check if roles are enabled
         if (is_null(BifrostBridge::getRoleClass())) {
             Log::warning('No role class found, but bifrost auth push triggered.');
+
             return;
         }
 
@@ -73,13 +74,13 @@ class ProcessWebhookBifrost implements ShouldQueue
                     $systemRole->users()->attach($attach);
                 }
 
-                Log::debug('Attached ' . $systemRole->name . ' to users: ' . $attach->implode(', '));
+                Log::debug('Attached '.$systemRole->name.' to users: '.$attach->implode(', '));
             }
 
             // Detach if needed
             if ($detach->count() > 0) {
                 $systemRole->users()->detach($detach);
-                Log::debug('Detached ' . $systemRole->name . ' from users: ' . $detach->implode(', '));
+                Log::debug('Detached '.$systemRole->name.' from users: '.$detach->implode(', '));
             }
         }
 
@@ -88,7 +89,7 @@ class ProcessWebhookBifrost implements ShouldQueue
             $existingOnSystemButNotBifrost = $allRoles->whereNotIn('name', collect($this->roles)->pluck('name'));
             foreach ($existingOnSystemButNotBifrost as $role) {
                 $role->users()->detach(); // detach all users, but keep the role
-                Log::info('Role ' . $role->name . ' was removed on Bifrost. Detached all users.');
+                Log::info('Role '.$role->name.' was removed on Bifrost. Detached all users.');
             }
         }
     }

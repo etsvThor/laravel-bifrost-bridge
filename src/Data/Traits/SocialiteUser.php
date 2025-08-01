@@ -10,7 +10,7 @@ trait SocialiteUser
 
     public int | null $expiresIn = null;
 
-   /**
+    /**
      * Set the token on the user.
      *
      * @param  string  $token
