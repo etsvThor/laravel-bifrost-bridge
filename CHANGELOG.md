@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.4.0 - 2025-08-01
+
+### What's Changed
+
+* Add support for php8.4 by @dododedodonl in https://github.com/etsvThor/laravel-bifrost-bridge/pull/34
+* Add phpstan
+* Add php-cs-fixer
+
+**Full Changelog**: https://github.com/etsvThor/laravel-bifrost-bridge/compare/1.3.0...1.4.0
+
 ## 1.3.0 - 2025-07-03
 
 ### What's Changed
