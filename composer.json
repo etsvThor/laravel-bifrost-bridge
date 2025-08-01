@@ -13,7 +13,7 @@
     ],
     "homepage": "https://github.com/etsvthor/laravel-bifrost-bridge",
     "require": {
-        "php": "~8.1.0 | ~8.2.0 | ~8.3.0",
+        "php": "~8.1.0 | ~8.2.0 | ~8.3.0 | ~8.4.0",
         "spatie/laravel-permission": "^4.0 | ^5.0 | ^6.0",
         "laravel/framework": "^10.0 | ^11.4.1 | ^12.19.3",
         "laravel/socialite": "^5.1",
@@ -35,5 +35,10 @@
                 "EtsvThor\\BifrostBridge\\BifrostBridgeServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "friendsofphp/php-cs-fixer": "^3.85",
+        "adamwojs/php-cs-fixer-phpdoc-force-fqcn": "^2.0"
     }
 }

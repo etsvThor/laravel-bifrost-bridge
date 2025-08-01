@@ -1,4 +1,5 @@
 <?php
+
 namespace EtsvThor\BifrostBridge;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -47,12 +48,12 @@ class BifrostBridgeServiceProvider extends ServiceProvider
     {
         // Register routes
         Route::group($this->routeConfiguration(), function () {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         });
 
         if (
             version_compare($this->app->version(), '11.0', '>=')
-            && method_exists(VerifyCsrfToken::class, 'except')
+            && method_exists(VerifyCsrfToken::class, 'except') // @phpstan-ignore function.alreadyNarrowedType
         ) {
             VerifyCsrfToken::except([
                 'webhooks/bifrost',
@@ -71,16 +72,17 @@ class BifrostBridgeServiceProvider extends ServiceProvider
     protected function bootMacros(): void
     {
         if (! Request::hasMacro('verifySignature')) {
-            Request::macro('verifySignature', function(string $key, string $header = 'X-Signature', string $algo = 'sha256'): bool {
+            Request::macro('verifySignature', function (string $key, string $header = 'X-Signature', string $algo = 'sha256'): bool {
                 /** @var \Illuminate\Http\Request $this */
 
-                return ($this->hasHeader($header) && $this->header($header) === hash_hmac($algo, $this->getContent(), $key));
+                return $this->hasHeader($header) && $this->header($header) === hash_hmac($algo, $this->getContent(), $key);
             });
         }
     }
 
     protected function bootSocialite(): void
     {
+        /** @var \Laravel\Socialite\SocialiteManager */
         $socialite = $this->app->make(SocialiteFactory::class);
 
         $socialite->extend(

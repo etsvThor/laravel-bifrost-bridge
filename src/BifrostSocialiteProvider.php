@@ -2,28 +2,31 @@
 
 namespace EtsvThor\BifrostBridge;
 
+use EtsvThor\BifrostBridge\Data\BifrostUserData;
 use EtsvThor\BifrostBridge\Enums\Intended;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\InvalidStateException;
-use EtsvThor\BifrostBridge\Data\BifrostUserData;
+use Laravel\Socialite\Two\User;
 
+/**
+ * @property \Laravel\Socialite\Contracts\User|null $user
+ */
 class BifrostSocialiteProvider extends AbstractProvider
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected $scopes;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected $scopeSeparator = ' ';
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl, $guzzle = [])
     {
@@ -35,9 +38,10 @@ class BifrostSocialiteProvider extends AbstractProvider
         );
     }
 
-    public function intended(Intended $intended = null): self
+    public function intended(Intended | null $intended = null): self
     {
-        Arr::set($this->parameters, 'intended', ($intended ?? Intended::default())?->value);
+        Arr::set($this->parameters, 'intended', ($intended ?? Intended::default())->value);
+
         return $this;
     }
 
@@ -91,16 +95,16 @@ class BifrostSocialiteProvider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => 'id',
+            'id' => 'id',
             'nickname' => 'nickname',
-            'name'     => 'name',
-            'email'    => 'email',
-            'avatar'   => 'avatar',
+            'name' => 'name',
+            'email' => 'email',
+            'avatar' => 'avatar',
         ]);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function user()
     {
@@ -126,8 +130,8 @@ class BifrostSocialiteProvider extends AbstractProvider
         $this->user = BifrostUserData::from($userData);
 
         return $this->user->setToken($token)
-                    ->setRefreshToken(Arr::get($response, 'refresh_token'))
-                    ->setExpiresIn(Arr::get($response, 'expires_in'));
+            ->setRefreshToken(Arr::get($response, 'refresh_token'))
+            ->setExpiresIn(Arr::get($response, 'expires_in'));
     }
 
     /**
@@ -148,8 +152,8 @@ class BifrostSocialiteProvider extends AbstractProvider
     {
         return rtrim($this->getConfig('host'), '/').'/'.ltrim(($this->getConfig($type, Arr::get([
             'authorize_uri' => 'oauth/authorize',
-            'token_uri'     => 'oauth/token',
-            'userinfo_uri'  => 'api/user',
+            'token_uri' => 'oauth/token',
+            'userinfo_uri' => 'api/user',
         ], $type))), '/');
     }
 

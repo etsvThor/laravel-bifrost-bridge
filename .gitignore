@@ -19,3 +19,4 @@ _ide_helper_models.php
 .phpstorm.meta.php
 .*.swp
 composer.lock
+.php-cs-fixer.cache

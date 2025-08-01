@@ -13,8 +13,8 @@ class WebhookController
     /**
      * Synchronize roles with bifrost
      *
-     * @param Request $request
-     * @return JsonResponse
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function bifrost(Request $request): JsonResponse
     {
@@ -25,7 +25,7 @@ class WebhookController
             ], 500);
         }
 
-        if (! $request->verifySignature(config('bifrost.auth_push_key'))) {
+        if (! $request->verifySignature(config('bifrost.auth_push_key'))) { // @phpstan-ignore method.notFound
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid signature.',

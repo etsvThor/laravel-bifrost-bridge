@@ -21,9 +21,10 @@ trait ResolvesRoleClass
 
     public static function defaultRoleClassResolver(): Closure
     {
-        return function() {
+        return function () {
             $class = app(PermissionRegistrar::class)->getRoleClass();
-            return is_string($class) ? app($class) : $class;
+
+            return is_string($class) ? app($class) : $class; // @phpstan-ignore function.alreadyNarrowedType
         };
     }
 }
