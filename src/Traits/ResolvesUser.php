@@ -26,7 +26,7 @@ trait ResolvesUser
     {
         return function(BifrostUserData $data): ?Model {
             // Try to retrieve the user
-            $user = BifrostBridge::getUserClass()->where(BifrostBridge::oauthUserIdKey(), $data->oauth_user_id)->first();
+            $user = BifrostBridge::getUserClass()->query()->where(BifrostBridge::oauthUserIdKey(), $data->oauth_user_id)->first();
 
             $mappedData = [
                 BifrostBridge::oauthUserIdKey() => $data->oauth_user_id,
@@ -52,7 +52,7 @@ trait ResolvesUser
 
                 // Nope, create a user
                 if (is_null($user)) {
-                    $user = BifrostBridge::getUserClass()::forceCreate($mappedData);
+                    $user = BifrostBridge::getUserClass()::query()->forceCreate($mappedData);
                 }
 
                 // Check if we need to verify email
@@ -73,7 +73,7 @@ trait ResolvesUser
             }
 
             // Sync roles if applicable
-            if (! is_null($data->roles) && ! is_null($roleClass = BifrostBridge::getRoleClass())) {
+            if (! is_null($data->roles) && ! is_null($roleClass = BifrostBridge::getRoleClass())) { // @phpstan-ignore function.impossibleType
                 if (config('bifrost.auto_assign', false)) {
                     // Retrieve all system roles
                     $allRoles = BifrostBridge::getRoleClass()->with('users')->get();
@@ -87,7 +87,7 @@ trait ResolvesUser
                     // Calculate which roles to attach
                     $toAttach = $newRoles
                         ->diff($existingRoles)
-                        ->map(fn ($roleName) => optional($allRoles->where('name', $roleName)->first())->getKey())
+                        ->map(fn ($roleName) => $allRoles->where('name', $roleName)->first()?->getKey())
                         ->filter();
 
                     // Calculate which roles to detach, only detach auto assigned roles
@@ -105,7 +105,7 @@ trait ResolvesUser
                     }
                 } else {
                     // Sync roles that exist on this system
-                    $roles = $roleClass::whereIn('name', $data->roles)->get();
+                    $roles = $roleClass::query()->whereIn('name', $data->roles)->get();
 
                     // Force roles on this user
                     $user->syncRoles($roles);

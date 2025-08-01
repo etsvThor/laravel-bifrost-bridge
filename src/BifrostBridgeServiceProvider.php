@@ -52,7 +52,7 @@ class BifrostBridgeServiceProvider extends ServiceProvider
 
         if (
             version_compare($this->app->version(), '11.0', '>=')
-            && method_exists(VerifyCsrfToken::class, 'except')
+            && method_exists(VerifyCsrfToken::class, 'except') // @phpstan-ignore function.alreadyNarrowedType
         ) {
             VerifyCsrfToken::except([
                 'webhooks/bifrost',
@@ -81,6 +81,7 @@ class BifrostBridgeServiceProvider extends ServiceProvider
 
     protected function bootSocialite(): void
     {
+        /** @var \Laravel\Socialite\SocialiteManager */
         $socialite = $this->app->make(SocialiteFactory::class);
 
         $socialite->extend(

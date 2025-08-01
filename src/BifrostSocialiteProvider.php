@@ -10,6 +10,9 @@ use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\InvalidStateException;
 use EtsvThor\BifrostBridge\Data\BifrostUserData;
 
+/**
+ * @property \Laravel\Socialite\Contracts\User|null $user
+ */
 class BifrostSocialiteProvider extends AbstractProvider
 {
     /**
@@ -37,7 +40,8 @@ class BifrostSocialiteProvider extends AbstractProvider
 
     public function intended(Intended | null $intended = null): self
     {
-        Arr::set($this->parameters, 'intended', ($intended ?? Intended::default())?->value);
+        Arr::set($this->parameters, 'intended', ($intended ?? Intended::default())->value);
+
         return $this;
     }
 

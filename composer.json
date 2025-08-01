@@ -35,5 +35,8 @@
                 "EtsvThor\\BifrostBridge\\BifrostBridgeServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1"
     }
 }

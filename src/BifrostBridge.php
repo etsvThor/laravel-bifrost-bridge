@@ -75,7 +75,7 @@ class BifrostBridge
     public static function applyWithTrashed(Model | null $model = null): Builder
     {
         return static::isSoftDeletable($model ??= static::getUserClass())
-            ? $model->withTrashed()
+            ? $model->withTrashed() // @phpstan-ignore method.notFound
             : $model->query();
     }
 }

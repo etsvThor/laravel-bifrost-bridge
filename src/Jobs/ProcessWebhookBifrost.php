@@ -48,20 +48,20 @@ class ProcessWebhookBifrost implements ShouldQueue
 
             // Get old and new user collection for this role
             $newUsers = collect($bifrostRole->users);
-            $oldUsers = $systemRole->users->pluck($oauthUserId)->filter();
+            $oldUsers = $systemRole->users->pluck($oauthUserId)->filter(); // @phpstan-ignore property.notFound
 
             if (config('bifrost.auto_assign', false)) {
                 // Get users who do not have this role auto assigned
-                $notAutoAssignedUsers = $systemRole->users->where('pivot.auto_assigned', 0)->pluck($userClassKey);
+                $notAutoAssignedUsers = $systemRole->users->where('pivot.auto_assigned', 0)->pluck($userClassKey); // @phpstan-ignore property.notFound
             } else {
                 $notAutoAssignedUsers = [];
             }
 
             // See who needs to be attached and detached
-            $attach = BifrostBridge::getUserClass()::whereIn($oauthUserId, $newUsers->diff($oldUsers))
+            $attach = BifrostBridge::getUserClass()::query()->whereIn($oauthUserId, $newUsers->diff($oldUsers))
                 ->pluck($userClassKey);
 
-            $detach = BifrostBridge::getUserClass()::whereIn($oauthUserId, $oldUsers->diff($newUsers))
+            $detach = BifrostBridge::getUserClass()::query()->whereIn($oauthUserId, $oldUsers->diff($newUsers))
                 ->whereNotIn($userClassKey, $notAutoAssignedUsers) // Do not detach if this role is not auto assigned
                 ->pluck($userClassKey);
 

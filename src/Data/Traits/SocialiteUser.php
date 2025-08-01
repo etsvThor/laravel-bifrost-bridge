@@ -4,6 +4,12 @@ namespace EtsvThor\BifrostBridge\Data\Traits;
 
 trait SocialiteUser
 {
+    public string | null $token = null;
+
+    public string | null $refreshToken = null;
+
+    public int | null $expiresIn = null;
+
    /**
      * Set the token on the user.
      *
@@ -46,7 +52,7 @@ trait SocialiteUser
     /**
      * Get the unique identifier for the user.
      *
-     * @return string
+     * @return string | int
      */
     public function getId()
     {
@@ -56,7 +62,7 @@ trait SocialiteUser
     /**
      * Get the nickname / username for the user.
      *
-     * @return string
+     * @return string | null
      */
     public function getNickname()
     {
@@ -66,7 +72,7 @@ trait SocialiteUser
     /**
      * Get the full name of the user.
      *
-     * @return string
+     * @return string | null
      */
     public function getName()
     {
@@ -76,7 +82,7 @@ trait SocialiteUser
     /**
      * Get the e-mail address of the user.
      *
-     * @return string
+     * @return string | null
      */
     public function getEmail()
     {
@@ -86,7 +92,7 @@ trait SocialiteUser
     /**
      * Get the avatar / image URL for the user.
      *
-     * @return string
+     * @return string | null
      */
     public function getAvatar()
     {
