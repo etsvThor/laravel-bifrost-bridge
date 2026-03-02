@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.1 - 2026-03-02
+
+### What's Changed
+
+* Bump stefanzweifel/git-auto-commit-action from 5 to 7 by @dependabot[bot] in https://github.com/etsvThor/laravel-bifrost-bridge/pull/36
+
+**Full Changelog**: https://github.com/etsvThor/laravel-bifrost-bridge/compare/2.0.0...2.0.1
+
 ## 2.0 - 2026-03-02
 
 ### What's Changed
