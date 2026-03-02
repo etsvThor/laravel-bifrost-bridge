@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0 - 2026-03-02
+
+### What's Changed
+
+* Bump actions/checkout from 4 to 6 by @dependabot[bot] in https://github.com/etsvThor/laravel-bifrost-bridge/pull/37
+* Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/etsvThor/laravel-bifrost-bridge/pull/38
+* Drop Laravel 10 and allow PHP 8.4 and 8.5 by @niekbr and @dododedodonl in https://github.com/etsvThor/laravel-bifrost-bridge/pull/39
+
+**Full Changelog**: https://github.com/etsvThor/laravel-bifrost-bridge/compare/1.4.0...2.0
+
 ## 1.4.0 - 2025-08-01
 
 ### What's Changed
