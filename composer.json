@@ -14,8 +14,8 @@
     "homepage": "https://github.com/etsvthor/laravel-bifrost-bridge",
     "require": {
         "php": "~8.3.0 | ~8.4.0 | ~8.5.0",
-        "spatie/laravel-permission": "^6.0 | ^7.0",
-        "laravel/framework": "^11.4.1 | ^12.19.3",
+        "spatie/laravel-permission": "^6.0 | ^7.0 | ^8.0",
+        "laravel/framework": "^12.19.3 | ^13.0",
         "laravel/socialite": "^5.1",
         "spatie/laravel-data": "^4.0"
     },
