@@ -50,8 +50,14 @@ class BifrostBridgeServiceProvider extends ServiceProvider
         });
 
         if (
-            version_compare($this->app->version(), '11.0', '>=')
-            && method_exists(VerifyCsrfToken::class, 'except') // @phpstan-ignore function.alreadyNarrowedType
+            version_compare($this->app->version(), '13.0', '>=')
+            && method_exists(PreventRequestForgery::class, 'except') // @phpstan-ignore function.alreadyNarrowedType
+        ) {
+            PreventRequestForgery::except([
+                'webhooks/bifrost',
+            ]);
+        } elseif (
+            method_exists(VerifyCsrfToken::class, 'except')
         ) {
             VerifyCsrfToken::except([
                 'webhooks/bifrost',
