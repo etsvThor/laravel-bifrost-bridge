@@ -6,6 +6,9 @@ use EtsvThor\BifrostBridge\BifrostBridge;
 use EtsvThor\BifrostBridge\Data\BifrostRoleData;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -88,8 +91,15 @@ class ProcessWebhookBifrost implements ShouldQueue
             // If a role is not present on Bifrost anymore, remove all users from it.
             $existingOnSystemButNotBifrost = $allRoles->whereNotIn('name', collect($this->roles)->pluck('name'));
             foreach ($existingOnSystemButNotBifrost as $role) {
-                $role->users()->detach(); // detach all users, but keep the role
-                Log::info('Role '.$role->name.' was removed on Bifrost. Detached all users.');
+                $usersQuery = $role->users();
+
+                if (config('bifrost.auto_assign', true)) {
+                    $usersQuery = $usersQuery->wherePivot('auto_assigned', true);
+                }
+
+                $usersQuery->detach(); // detach all users, but keep the role
+
+                Log::info('Role '.$role->name.' did not exist on Bifrost. Detached all auto assigned users.');
             }
         }
     }
