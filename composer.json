@@ -39,6 +39,16 @@
     "require-dev": {
         "phpstan/phpstan": "^2.1",
         "friendsofphp/php-cs-fixer": "^3.85",
-        "adamwojs/php-cs-fixer-phpdoc-force-fqcn": "^2.0"
+        "adamwojs/php-cs-fixer-phpdoc-force-fqcn": "^2.0",
+        "phpunit/phpunit": "^13.0",
+        "laravel/sail": "^1.66"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EtsvThor\\BifrostBridge\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
