@@ -40,8 +40,9 @@
         "phpstan/phpstan": "^2.1",
         "friendsofphp/php-cs-fixer": "^3.85",
         "adamwojs/php-cs-fixer-phpdoc-force-fqcn": "^2.0",
-        "phpunit/phpunit": "^13.0",
-        "laravel/sail": "^1.66"
+        "phpunit/phpunit": "^12.5.33",
+        "laravel/sail": "^1.66",
+        "orchestra/testbench": "^11.2"
     },
     "autoload-dev": {
         "psr-4": {
