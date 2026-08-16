@@ -2,11 +2,15 @@ includes:
     - vendor/nesbot/carbon/extension.neon
 
 parameters:
+    ignoreErrors:
+        - identifier: missingType.iterableValue
+        - message: '#^Access to an undefined property EtsvThor\\BifrostBridge\\Contracts\\BifrostUser.*::\$roles\.$#'
+          identifier: property.notFound
 
     paths:
         - src/
         - routes/
         - config/
 
-    level: 5
+    level: 8
 

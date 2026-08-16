@@ -9,6 +9,7 @@ use EtsvThor\BifrostBridge\Data\BifrostUserData;
 use EtsvThor\BifrostBridge\Enums\Intended;
 use EtsvThor\BifrostBridge\Events\BifrostLogin;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class LoginController
 {
-    protected function resolveRedirect(string $config, string $defaultPath = '/')
+    protected function resolveRedirect(string $config, string $defaultPath = '/'): RedirectResponse
     {
         $route = config($config);
         if (is_null($route)) {
@@ -67,7 +68,7 @@ class LoginController
         return $this->tryFlashNotification($message, $type) || $this->tryFilamentNotification($message, $type);
     }
 
-    public function redirect(Request $request)
+    public function redirect(Request $request): RedirectResponse
     {
         if (config('bifrost.enabled') !== true) {
             if (! App::environment('local')) {
@@ -76,22 +77,22 @@ class LoginController
 
             // allow login without password for LOCAL environments when bifrost is NOT enabled
             if ($request->has('id')) {
-                $user = BifrostBridge::getUserClass()::query()->whereKey($request->get('id', 1))->firstOrFail();
+                $user = BifrostBridge::getUserClass()::query()->whereKey($request->input('id', 1))->firstOrFail();
             } else {
                 $user = BifrostBridge::getUserClass()::query()->firstOrFail();
             }
 
             // Login user
-            Auth::login($user, config('bifrost.remember_user', true)); // @phpstan-ignore argument.type
+            Auth::login($user, config('bifrost.remember_user', true));
 
             $this->notify(($user->getAttribute('name') ?? 'The first user').' has been logged in automatically, as Bifrost is disabled');
 
             return $this->resolveRedirect('bifrost.redirects.after_login');
         }
 
-        $intended = $request->get('intended', config('bifrost.service.intended', 'login'));
+        $intended = $request->input('intended', config('bifrost.service.intended', 'login'));
 
-        /** @var \EtsvThor\BifrostBridge\BifrostSocialiteProvider */
+        /** @var \EtsvThor\BifrostBridge\BifrostSocialiteProvider $bifrost */
         $bifrost = Socialite::driver('bifrost');
 
         return $bifrost
@@ -99,7 +100,7 @@ class LoginController
             ->redirect();
     }
 
-    public function callback()
+    public function callback(): RedirectResponse
     {
         /** @var \EtsvThor\BifrostBridge\Data\BifrostUserData $data */
         $data = Socialite::driver('bifrost')->user();
@@ -113,7 +114,7 @@ class LoginController
         }
 
         // Login user
-        Auth::login($user, config('bifrost.remember_user', true));  // @phpstan-ignore argument.type
+        Auth::login($user, config('bifrost.remember_user', true));
         BifrostLogin::dispatch($user, config('auth.defaults.guard'), config('bifrost.remember_user', true));
 
         // Set notification if there is a flash notifier
@@ -129,7 +130,7 @@ class LoginController
     /**
      * Logout the user
      */
-    public function logout()
+    public function logout(): RedirectResponse
     {
         // Logout user
         Auth::logout();

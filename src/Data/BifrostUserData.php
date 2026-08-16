@@ -16,7 +16,13 @@ class BifrostUserData extends Data implements User
         public string $updated_at,
         public ?string $email = null,
         public ?string $email_verified_at = null,
+        /**
+         * @var string[] | null
+         */
         public ?array $alternate_emails = [],
+        /**
+         * @var string[]
+         */
         public array $roles = [],
         public ?int $member_id = null,
     ) {
@@ -27,6 +33,9 @@ class BifrostUserData extends Data implements User
      */
     public function allEmails(): array
     {
-        return collect([$this->email])->merge($this->alternate_emails ?? [])->filter()->all();
+        return array_values(array_filter([
+            $this->email,
+            ...($this->alternate_emails ?? []),
+        ]));
     }
 }

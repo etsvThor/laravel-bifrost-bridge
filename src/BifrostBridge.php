@@ -2,6 +2,7 @@
 
 namespace EtsvThor\BifrostBridge;
 
+use EtsvThor\BifrostBridge\Contracts\BifrostUser;
 use EtsvThor\BifrostBridge\Data\BifrostUserData;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,12 +16,12 @@ class BifrostBridge
     use Traits\ResolvesRoleClass, Traits\ResolvesUserClass, Traits\ResolvesUser, Traits\ResolvesRequiresVerifiedEmail;
 
     // Resolvers
-    public static function resolveAndUpdateUser(BifrostUserData $data): ?Model
+    public static function resolveAndUpdateUser(BifrostUserData $data): (Model & BifrostUser) | null
     {
         return app()->call(static::$userResolver ?? static::defaultUserResolver(), ['data' => $data]);
     }
 
-    public static function getUserClass(): Model
+    public static function getUserClass(): Model & BifrostUser
     {
         return app()->call(static::$userClassResolver ?? static::defaultUserClassResolver());
     }
@@ -67,12 +68,21 @@ class BifrostBridge
         return in_array(SoftDeletes::class, class_uses_recursive($model ?? static::getUserClass())) === true;
     }
 
+    /**
+     * @phpstan-assert-if-true \Illuminate\Contracts\Auth\MustVerifyEmail $model
+     */
     public static function isVerifyingEmail(Model | null $model = null): bool
     {
         return ($model ?? static::getUserClass()) instanceof MustVerifyEmail;
     }
 
-    public static function applyWithTrashed(Model | null $model = null): Builder
+    /**
+     * @template TModel of Model & BifrostUser
+     *
+     * @param TModel|null $model
+     * @return ($model is null ? Builder<Model & BifrostUser> : Builder<TModel>)
+     */
+    public static function applyWithTrashed((Model & BifrostUser) | null $model = null): Builder
     {
         return static::isSoftDeletable($model ??= static::getUserClass())
             ? $model->withTrashed() // @phpstan-ignore method.notFound

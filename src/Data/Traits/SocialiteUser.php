@@ -12,11 +12,8 @@ trait SocialiteUser
 
     /**
      * Set the token on the user.
-     *
-     * @param  string  $token
-     * @return $this
      */
-    public function setToken(string $token)
+    public function setToken(string $token): static
     {
         $this->token = $token;
 
@@ -25,11 +22,8 @@ trait SocialiteUser
 
     /**
      * Set the refresh token required to obtain a new access token.
-     *
-     * @param  string  $refreshToken
-     * @return $this
      */
-    public function setRefreshToken(string $refreshToken)
+    public function setRefreshToken(string $refreshToken): static
     {
         $this->refreshToken = $refreshToken;
 
@@ -38,11 +32,8 @@ trait SocialiteUser
 
     /**
      * Set the number of seconds the access token is valid for.
-     *
-     * @param  int  $expiresIn
-     * @return $this
      */
-    public function setExpiresIn(int $expiresIn)
+    public function setExpiresIn(int $expiresIn): static
     {
         $this->expiresIn = $expiresIn;
 
@@ -51,50 +42,40 @@ trait SocialiteUser
 
     /**
      * Get the unique identifier for the user.
-     *
-     * @return string | int
      */
-    public function getId()
+    public function getId(): int | string
     {
         return $this->oauth_user_id;
     }
 
     /**
      * Get the nickname / username for the user.
-     *
-     * @return string | null
      */
-    public function getNickname()
+    public function getNickname(): ?string
     {
         return null;
     }
 
     /**
      * Get the full name of the user.
-     *
-     * @return string | null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
      * Get the e-mail address of the user.
-     *
-     * @return string | null
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
     /**
      * Get the avatar / image URL for the user.
-     *
-     * @return string | null
      */
-    public function getAvatar()
+    public function getAvatar(): ?string
     {
         return null;
     }

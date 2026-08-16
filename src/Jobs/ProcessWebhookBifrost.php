@@ -17,7 +17,7 @@ class ProcessWebhookBifrost implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @param DataCollection<int, BifrostRoleData> $roles
+     * @param \Spatie\LaravelData\DataCollection<int, \EtsvThor\BifrostBridge\Data\BifrostRoleData> $roles
      */
     public function __construct(
         protected DataCollection $roles,
@@ -49,11 +49,11 @@ class ProcessWebhookBifrost implements ShouldQueue
 
             // Get old and new user collection for this role
             $newUsers = collect($bifrostRole->users);
-            $oldUsers = $systemRole->users->pluck($oauthUserId)->filter(); // @phpstan-ignore property.notFound
+            $oldUsers = $systemRole->users->pluck($oauthUserId)->filter();
 
             if (config('bifrost.auto_assign', false)) {
                 // Get users who do not have this role auto assigned
-                $notAutoAssignedUsers = $systemRole->users->where('pivot.auto_assigned', 0)->pluck($userClassKey); // @phpstan-ignore property.notFound
+                $notAutoAssignedUsers = $systemRole->users->where('pivot.auto_assigned', 0)->pluck($userClassKey);
             } else {
                 $notAutoAssignedUsers = [];
             }

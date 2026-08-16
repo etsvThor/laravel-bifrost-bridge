@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\InvalidStateException;
 use Laravel\Socialite\Two\User;
+use Override;
 
 /**
  * @property \Laravel\Socialite\Contracts\User|null $user
@@ -46,35 +47,28 @@ class BifrostSocialiteProvider extends AbstractProvider
     }
 
     /**
-     * Get the authentication URL for the provider.
-     *
-     * @param string $state
-     *
-     * @return string
+     * @inheritdoc
      */
-    protected function getAuthUrl($state)
+    #[Override]
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getLaravelPassportUrl('authorize_uri'), $state);
     }
 
     /**
-     * Get the token URL for the provider.
-     *
-     * @return string
+     * @inheritdoc
      */
-    protected function getTokenUrl()
+    #[Override]
+    protected function getTokenUrl(): string
     {
         return $this->getLaravelPassportUrl('token_uri');
     }
 
     /**
-     * Get the raw user for the given access token.
-     *
-     * @param string $token
-     *
-     * @return array
+     * @inheritdoc
      */
-    protected function getUserByToken($token)
+    #[Override]
+    protected function getUserByToken($token): array
     {
         $response = $this->getHttpClient()->get($this->getLaravelPassportUrl('userinfo_uri'), [
             'headers' => [
@@ -86,13 +80,10 @@ class BifrostSocialiteProvider extends AbstractProvider
     }
 
     /**
-     * Map the raw user array to a Socialite User instance.
-     *
-     * @param array $user
-     *
-     * @return \Laravel\Socialite\Two\User
+     * @inheritdoc
      */
-    protected function mapUserToObject(array $user)
+    #[Override]
+    protected function mapUserToObject(array $user): User
     {
         return (new User())->setRaw($user)->map([
             'id' => 'id',
@@ -106,9 +97,10 @@ class BifrostSocialiteProvider extends AbstractProvider
     /**
      * @inheritdoc
      */
+    #[Override]
     public function user()
     {
-        if ($this->user && $this->user instanceof BifrostUserData) {
+        if ($this->user instanceof BifrostUserData) {
             return $this->user;
         }
 
@@ -135,20 +127,17 @@ class BifrostSocialiteProvider extends AbstractProvider
     }
 
     /**
-     * Get the POST fields for the token request.
-     *
-     * @param string $code
-     *
-     * @return array
+     * @inheritdoc
      */
-    protected function getTokenFields($code)
+    #[Override]
+    protected function getTokenFields($code): array
     {
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
     }
 
-    protected function getLaravelPassportUrl($type)
+    protected function getLaravelPassportUrl(string $type): string
     {
         return rtrim($this->getConfig('host'), '/').'/'.ltrim(($this->getConfig($type, Arr::get([
             'authorize_uri' => 'oauth/authorize',
@@ -157,7 +146,7 @@ class BifrostSocialiteProvider extends AbstractProvider
         ], $type))), '/');
     }
 
-    protected function getConfig($key, $default = null)
+    protected function getConfig(string $key, string | array | null $default = null): mixed
     {
         return config('bifrost.service.'.$key, $default);
     }

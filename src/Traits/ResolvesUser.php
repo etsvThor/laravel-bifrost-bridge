@@ -13,11 +13,7 @@ trait ResolvesUser
     /** @var callable|string|null */
     protected static $userResolver = null;
 
-    /**
-     * @param callable|string|null $callback
-     * @return void
-     */
-    public static function resolveAndUpdateUserUsing($callback): void
+    public static function resolveAndUpdateUserUsing(callable | string | null $callback): void
     {
         static::$userResolver = $callback;
     }
@@ -46,6 +42,7 @@ trait ResolvesUser
                 }
 
                 // There is an email, so find the user. Either from array of emails or single email value
+                /** @var (\Illuminate\Database\Eloquent\Model & \EtsvThor\BifrostBridge\Contracts\BifrostUser) | null $user */
                 $user = BifrostBridge::applyWithTrashed()
                     ->whereIn(BifrostBridge::emailKey(), $data->allEmails())
                     ->first();
@@ -61,7 +58,7 @@ trait ResolvesUser
                 }
 
                 // Check if the user is deleted
-                if (BifrostBridge::isSoftDeletable($user) && $user->trashed()) {
+                if (BifrostBridge::isSoftDeletable($user) && $user->trashed()) { // @phpstan-ignore method.notFound
                     return null;
                 }
             }
