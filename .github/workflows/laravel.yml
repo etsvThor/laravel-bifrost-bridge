@@ -22,3 +22,4 @@ jobs:
     with:
       php-version: 8.3
       php-extensions: "[ 'imagick', 'gd' ]"
+      analysis-command: './vendor/bin/php-cs-fixer fix src --dry-run --diff'
