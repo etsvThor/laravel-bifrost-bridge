@@ -10,11 +10,7 @@ trait ResolvesRoleClass
     /** @var callable|string|null */
     protected static $roleClassResolver = null;
 
-    /**
-     * @param callable|string|null $callback
-     * @return void
-     */
-    public static function resolveRoleClassUsing($callback): void
+    public static function resolveRoleClassUsing(callable | string | null $callback): void
     {
         static::$roleClassResolver = $callback;
     }

@@ -9,11 +9,7 @@ trait ResolvesUserClass
     /** @var callable|string|null */
     protected static $userClassResolver = null;
 
-    /**
-     * @param callable|string|null $callback
-     * @return void
-     */
-    public static function resolveUserClassUsing($callback): void
+    public static function resolveUserClassUsing(callable | string | null $callback): void
     {
         static::$userClassResolver = $callback;
     }

@@ -6,14 +6,10 @@ use Closure;
 
 trait ResolvesRequiresVerifiedEmail
 {
-    /** @var callable|bool|null */
+    /** @var callable|string|null */
     protected static $requiresVerifiedEmailResolver = null;
 
-    /**
-     * @param callable|string|null $callback
-     * @return void
-     */
-    public static function resolveRequiresVerifiedEmailUsing($callback): void
+    public static function resolveRequiresVerifiedEmailUsing(callable | string | null $callback): void
     {
         static::$requiresVerifiedEmailResolver = $callback;
     }

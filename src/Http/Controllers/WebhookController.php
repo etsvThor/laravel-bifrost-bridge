@@ -12,9 +12,6 @@ class WebhookController
 {
     /**
      * Synchronize roles with bifrost
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
      */
     public function bifrost(Request $request): JsonResponse
     {
@@ -33,7 +30,7 @@ class WebhookController
         }
 
         ProcessWebhookBifrost::dispatch(
-            BifrostRoleData::collect($request->get('roles'), DataCollection::class),
+            BifrostRoleData::collect($request->input('roles'), DataCollection::class),
         );
 
         return response()->json(['success' => true]);
