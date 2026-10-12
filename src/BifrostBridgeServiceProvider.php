@@ -75,7 +75,16 @@ class BifrostBridgeServiceProvider extends ServiceProvider
             Request::macro('verifySignature', function (string $key, string $header = 'X-Signature', string $algo = 'sha256'): bool {
                 /** @var \Illuminate\Http\Request $this */
 
-                return $this->hasHeader($header) && $this->header($header) === hash_hmac($algo, $this->getContent(), $key);
+                if (! $this->hasHeader($header) || blank($key)) {
+                    return false;
+                }
+
+                $signature = $this->header($header);
+                if (! is_string($signature)) {
+                    return false;
+                }
+
+                return hash_equals(hash_hmac($algo, (string) $this->getContent(), $key), $signature);
             });
         }
     }
